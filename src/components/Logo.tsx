@@ -21,11 +21,11 @@ const Logo: React.FC<LogoProps> = ({ className, size = "md" }) => {
         sizeClasses[size],
         className
       )}
-      aria-label="LUDO"
+      aria-label="LUQO"
     >
       <span className="inline-block">L</span>
       <span className="inline-block">U</span>
-      <span className="inline-block">D</span>
+      <span className="inline-block">Q</span>
       <span className="inline-block">O</span>
     </h1>
   );

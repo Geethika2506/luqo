@@ -12,9 +12,9 @@ const Header: React.FC = () => {
       </a>
       
       <div className="flex items-center">
-        <a href="/" aria-label="LUDO Home" className="mr-6">
+        <a href="/" aria-label="LUQO Home" className="mr-6">
           <img 
-            src="/lovable-uploads/e465034f-83bd-4159-bda7-9a88ee1159b5.png" 
+            src="/lovable-uploads/b06c87f1-5669-43fa-bea4-59295acfdc94.png" 
             alt="" 
             className="w-8 h-8 object-contain" 
             aria-hidden="true"
