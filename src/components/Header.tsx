@@ -6,11 +6,6 @@ import Logo from './Logo';
 const Header: React.FC = () => {
   return (
     <header className="w-full bg-navyBlue py-3 px-6 flex justify-between items-center">
-      {/* Skip to content link for keyboard users */}
-      <a href="#main-content" className="skip-link">
-        Skip to content
-      </a>
-      
       <div className="flex items-center">
         <a href="/" aria-label="LUQO Home" className="mr-6">
           <img 
