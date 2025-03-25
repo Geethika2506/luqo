@@ -17,7 +17,7 @@ const Logo: React.FC<LogoProps> = ({ className, size = "md" }) => {
   return (
     <h1 
       className={cn(
-        "font-bold tracking-tighter text-white animate-logo-glow", 
+        "font-bold tracking-tighter text-white animate-logo-glow font-montserrat", 
         sizeClasses[size],
         className
       )}

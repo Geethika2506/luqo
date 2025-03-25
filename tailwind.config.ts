@@ -63,11 +63,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-                hero: '#1818B1', // Deep blue for hero section
+                hero: '#0A1172', // Change to navy blue from #1818B1
+                navyBlue: '#0A1172', // New navy blue color
                 brand: '#FF5722', // Brand orange
                 cardBg: '#EEEEEE', // Light gray for cards
                 textPrimary: '#333333', // Dark gray for text
                 textSecondary: '#666666', // Medium gray for secondary text
+			},
+			fontFamily: {
+				montserrat: ['Montserrat', 'sans-serif'],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
