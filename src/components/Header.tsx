@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import Logo from './Logo';
 
 const Header: React.FC = () => {
   return (
@@ -17,7 +16,7 @@ const Header: React.FC = () => {
         </a>
       </div>
       
-      <nav className="hidden md:flex items-center space-x-6">
+      <div className="flex items-center space-x-4">
         <a 
           href="/about" 
           className="text-white hover:underline focus:underline text-sm font-medium transition-all font-montserrat"
@@ -32,16 +31,6 @@ const Header: React.FC = () => {
         >
           Contact
         </a>
-        <a 
-          href="/signup" 
-          className="text-white hover:underline focus:underline text-sm font-medium transition-all font-montserrat"
-          aria-label="Sign up"
-        >
-          Sign Up
-        </a>
-      </nav>
-      
-      <div className="flex items-center space-x-3">
         <Button 
           variant="outline" 
           size="sm" 
