@@ -1,10 +1,23 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    navigate('/search');
+    console.log('Search button clicked');
+  };
+
+  const handleSignIn = () => {
+    navigate('/sign-in');
+    console.log('Sign In button clicked');
+  };
+
   return (
-    <header className="w-full bg-navyBlue py-3 px-6 flex justify-between items-center">
+    <header className="w-full bg-[#FF5722] py-3 px-6 flex justify-between items-center">
       <div className="flex items-center">
         <a href="/" aria-label="LUQO Home" className="mr-6">
           <img 
@@ -34,14 +47,16 @@ const Header: React.FC = () => {
         <Button 
           variant="outline" 
           size="sm" 
-          className="bg-transparent border-white text-white hover:bg-white hover:text-navyBlue focus:bg-white focus:text-navyBlue transition-all font-montserrat"
+          onClick={handleSignIn}
+          className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
           aria-label="Sign in to your account"
         >
           Sign In
         </Button>
         <Button 
           size="sm" 
-          className="bg-white text-navyBlue hover:bg-opacity-90 focus:bg-opacity-90 transition-all font-montserrat"
+          onClick={handleSearch}
+          className="bg-white text-[#FF5722] hover:bg-opacity-90 focus:bg-opacity-90 transition-all font-montserrat"
           aria-label="Search stores"
         >
           Search
