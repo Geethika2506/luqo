@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -46,7 +45,6 @@ const storeExperiences = [{
 
 // Available categories
 const categories = ["All", "Jewelry", "Fashion", "Books", "Technology"];
-
 const Index: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
@@ -66,17 +64,14 @@ const Index: React.FC = () => {
   useEffect(() => {
     setLoaded(true);
   }, []);
-
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-gradient relative overflow-hidden py-20 px-6 bg-[#10144a]">
+      <section className="hero-gradient relative overflow-hidden py-20 px-6 bg-indigo-950">
         <div className={`container mx-auto text-center transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
           <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-6 tracking-wide font-montserrat">
@@ -98,30 +93,15 @@ const Index: React.FC = () => {
         <h2 className="sr-only">Store Experiences</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 stagger-animate">
-          {filteredStores.map(store => (
-            <StoreCard 
-              key={store.id} 
-              id={store.id}
-              title={store.title} 
-              description={store.description} 
-              category={store.category} 
-              imageUrl={store.imageUrl} 
-              offer={store.offer} 
-              giveaway={store.giveaway} 
-              experience={store.experience} 
-              className="animate-slide-in" 
-            />
-          ))}
+          {filteredStores.map(store => <StoreCard key={store.id} id={store.id} title={store.title} description={store.description} category={store.category} imageUrl={store.imageUrl} offer={store.offer} giveaway={store.giveaway} experience={store.experience} className="animate-slide-in" />)}
         </div>
         
-        {filteredStores.length === 0 && (
-          <div className="text-center py-16">
+        {filteredStores.length === 0 && <div className="text-center py-16">
             <h3 className="text-xl font-medium text-textPrimary mb-3">No stores found</h3>
             <p className="text-textSecondary">
               No stores found in this category. Please try another category.
             </p>
-          </div>
-        )}
+          </div>}
       </section>
       
       {/* Accessibility Commitment Section */}
@@ -137,20 +117,18 @@ const Index: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[{
-              title: "Physical Access",
-              description: "Stores with step-free entry, wide aisles, and accessible changing rooms and restrooms."
-            }, {
-              title: "Sensory Considerations",
-              description: "Quiet hours, reduced lighting options, and staff trained to assist those with sensory sensitivities."
-            }, {
-              title: "Communication Support",
-              description: "Alternative formats, sign language support, and clear signage with visual aids."
-            }].map((feature, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
+            title: "Physical Access",
+            description: "Stores with step-free entry, wide aisles, and accessible changing rooms and restrooms."
+          }, {
+            title: "Sensory Considerations",
+            description: "Quiet hours, reduced lighting options, and staff trained to assist those with sensory sensitivities."
+          }, {
+            title: "Communication Support",
+            description: "Alternative formats, sign language support, and clear signage with visual aids."
+          }].map((feature, index) => <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
                 <h3 className="text-lg font-medium text-textPrimary mb-3 font-montserrat">{feature.title}</h3>
                 <p className="text-textSecondary text-sm font-montserrat">{feature.description}</p>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </section>
@@ -165,18 +143,10 @@ const Index: React.FC = () => {
             Are you a store owner committed to accessibility? Partner with us to showcase your inclusive shopping experience.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button 
-              className="bg-white text-brand px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors font-montserrat" 
-              aria-label="Register your store"
-              onClick={handleRegisterStore}
-            >
+            <button className="bg-white text-brand px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors font-montserrat" aria-label="Register your store" onClick={handleRegisterStore}>
               Register Your Store
             </button>
-            <button 
-              className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors font-montserrat" 
-              aria-label="Learn more about our accessibility standards"
-              onClick={() => navigate('/about')}
-            >
+            <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors font-montserrat" aria-label="Learn more about our accessibility standards" onClick={() => navigate('/about')}>
               Learn More
             </button>
           </div>
@@ -184,8 +154,6 @@ const Index: React.FC = () => {
       </section>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
