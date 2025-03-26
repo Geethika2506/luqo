@@ -4,23 +4,53 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [session, setSession] = useState<any>(null);
+  const [profile, setProfile] = useState<any>(null);
   
   useEffect(() => {
     const getSession = async () => {
       const { data } = await supabase.auth.getSession();
       setSession(data.session);
+      
+      if (data.session) {
+        // Fetch user profile
+        const { data: profileData, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', data.session.user.id)
+          .single();
+          
+        if (!error && profileData) {
+          setProfile(profileData);
+        }
+      }
     };
     
     getSession();
     
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         setSession(session);
+        
+        if (session) {
+          // Fetch user profile when auth state changes
+          const { data: profileData, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+            
+          if (!error && profileData) {
+            setProfile(profileData);
+          }
+        } else {
+          setProfile(null);
+        }
       }
     );
 
@@ -55,6 +85,13 @@ const Header: React.FC = () => {
     console.log('Register Store button clicked');
   };
 
+  const getInitials = () => {
+    if (session?.user?.email) {
+      return session.user.email.substring(0, 2).toUpperCase();
+    }
+    return 'U';
+  };
+
   return (
     <header className="w-full bg-[#FF5722] py-3 px-6 flex justify-between items-center">
       <div className="flex items-center">
@@ -86,6 +123,17 @@ const Header: React.FC = () => {
         
         {session ? (
           <>
+            <div className="flex items-center mr-2">
+              <Avatar className="h-8 w-8 mr-2 border-2 border-white">
+                <AvatarImage src={profile?.avatar_url} alt="Profile" />
+                <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
+                  {getInitials()}
+                </AvatarFallback>
+              </Avatar>
+              <span className="text-white text-sm font-montserrat hidden md:inline">
+                {profile?.full_name || session.user.email}
+              </span>
+            </div>
             <Button 
               variant="outline" 
               size="sm" 
