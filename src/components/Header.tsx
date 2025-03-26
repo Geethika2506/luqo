@@ -5,6 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { User, LogOut } from 'lucide-react';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -121,38 +128,41 @@ const Header: React.FC = () => {
           Contact
         </a>
         
+        <Button 
+          size="sm" 
+          onClick={handleSearch}
+          className="bg-white text-[#FF5722] hover:bg-opacity-90 focus:bg-opacity-90 transition-all font-montserrat"
+          aria-label="Search stores"
+        >
+          Search
+        </Button>
+        
         {session ? (
-          <>
-            <div className="flex items-center mr-2">
-              <Avatar className="h-8 w-8 mr-2 border-2 border-white">
-                <AvatarImage src={profile?.avatar_url} alt="Profile" />
-                <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
-                  {getInitials()}
-                </AvatarFallback>
-              </Avatar>
-              <span className="text-white text-sm font-montserrat hidden md:inline">
-                {profile?.full_name || session.user.email}
-              </span>
-            </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleRegisterStore}
-              className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
-              aria-label="Register your store"
-            >
-              Register Store
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleSignOut}
-              className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
-              aria-label="Sign out"
-            >
-              Sign Out
-            </Button>
-          </>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="flex items-center cursor-pointer ml-2">
+                <Avatar className="h-8 w-8 mr-2 border-2 border-white">
+                  <AvatarImage src={profile?.avatar_url} alt="Profile" />
+                  <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
+                    {getInitials()}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-white text-sm font-montserrat hidden md:inline">
+                  {profile?.full_name || session.user.email}
+                </span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={handleRegisterStore} className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                <span>Register Store</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Sign Out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ) : (
           <Button 
             variant="outline" 
@@ -164,15 +174,6 @@ const Header: React.FC = () => {
             Sign In
           </Button>
         )}
-        
-        <Button 
-          size="sm" 
-          onClick={handleSearch}
-          className="bg-white text-[#FF5722] hover:bg-opacity-90 focus:bg-opacity-90 transition-all font-montserrat"
-          aria-label="Search stores"
-        >
-          Search
-        </Button>
       </div>
     </header>
   );
