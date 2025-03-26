@@ -1,9 +1,9 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tag, Gift, ChevronRight, X } from 'lucide-react';
+import { Tag, Gift, ChevronRight } from 'lucide-react';
 
 interface StoreCardProps {
   title: string;
@@ -14,6 +14,7 @@ interface StoreCardProps {
   offer?: string;
   giveaway?: string;
   experience?: string;
+  id: string;
 }
 
 const StoreCard: React.FC<StoreCardProps> = ({ 
@@ -24,9 +25,13 @@ const StoreCard: React.FC<StoreCardProps> = ({
   className,
   offer,
   giveaway,
-  experience
+  id
 }) => {
-  const [showExperience, setShowExperience] = useState(false);
+  const navigate = useNavigate();
+
+  const handleViewExperience = () => {
+    navigate(`/store/${id}`);
+  };
 
   return (
     <div 
@@ -35,60 +40,6 @@ const StoreCard: React.FC<StoreCardProps> = ({
         className
       )}
     >
-      {/* Experience Modal */}
-      {showExperience && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <Card className="w-full max-w-lg max-h-[80vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white z-10 p-4 flex justify-between items-center border-b">
-              <h3 className="text-xl font-semibold text-textPrimary">{title} Experience</h3>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                onClick={() => setShowExperience(false)}
-                aria-label="Close experience details"
-                className="h-8 w-8"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-            <CardContent className="p-6">
-              <img 
-                src={imageUrl} 
-                alt={`${title} store`} 
-                className="w-full h-48 object-cover rounded-md mb-4" 
-              />
-              <p className="text-textPrimary mb-4">{experience}</p>
-              
-              {(offer || giveaway) && (
-                <div className="mt-6 space-y-4">
-                  <h4 className="text-lg font-medium text-textPrimary">Special Offers & Giveaways</h4>
-                  
-                  {offer && (
-                    <div className="flex items-start gap-3 bg-brand/10 p-3 rounded-md">
-                      <Tag className="h-5 w-5 text-brand flex-shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-medium text-brand">Current Offer:</span>
-                        <p className="text-textSecondary text-sm mt-1">{offer}</p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {giveaway && (
-                    <div className="flex items-start gap-3 bg-navyBlue/10 p-3 rounded-md">
-                      <Gift className="h-5 w-5 text-navyBlue flex-shrink-0 mt-0.5" />
-                      <div>
-                        <span className="font-medium text-navyBlue">Giveaway:</span>
-                        <p className="text-textSecondary text-sm mt-1">{giveaway}</p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
       <div 
         className="h-48 w-full bg-gray-300 relative"
         aria-hidden="true"
@@ -129,7 +80,7 @@ const StoreCard: React.FC<StoreCardProps> = ({
         <button 
           className="mt-4 text-brand font-medium text-sm flex items-center hover:underline focus:underline"
           aria-label={`View details for ${title}`}
-          onClick={() => setShowExperience(true)}
+          onClick={handleViewExperience}
         >
           View Experience
           <ChevronRight className="h-4 w-4 ml-1" />

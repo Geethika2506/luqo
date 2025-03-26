@@ -1,4 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import CategoryButton from '@/components/CategoryButton';
 import StoreCard from '@/components/StoreCard';
@@ -7,7 +9,7 @@ import Logo from '@/components/Logo';
 
 // Enhanced store data with real images, offers, giveaways, and experiences
 const storeExperiences = [{
-  id: 1,
+  id: "1",
   title: "Pao Jewellery",
   description: "Experience handcrafted jewelry with audio descriptions and touchable display samples. Friendly staff trained in sign language.",
   category: "Jewelry",
@@ -16,7 +18,7 @@ const storeExperiences = [{
   giveaway: "Free sterling silver earrings with purchases over $100 this month",
   experience: "At Pao Jewellery, we've created an inclusive shopping environment where everyone can appreciate the beauty of our handcrafted pieces. Our showroom features enhanced lighting and magnifying glasses to help you see intricate details. Each display includes Braille descriptions and our staff members are trained in basic sign language. We offer a unique 'touch collection' where you can feel the textures and weights of different designs. Audio descriptions are available for each jewelry piece, and our counters are at varied heights to accommodate wheelchair users. We regularly host sensory-friendly shopping hours with reduced lighting and sound."
 }, {
-  id: 2,
+  id: "2",
   title: "Sensory Bookshop",
   description: "Browse our extensive collection of books with braille options, audiobooks, and a calm sensory-friendly environment.",
   category: "Books",
@@ -25,7 +27,7 @@ const storeExperiences = [{
   giveaway: "Free tote bag with purchases over $50",
   experience: "The Sensory Bookshop is designed to be a sanctuary for all book lovers. Our store layout features wide aisles for easy navigation, and we have a selection of adjustable reading chairs to accommodate various needs. We're proud to offer an extensive collection of books in multiple formats: traditional print, large print, braille, and digital/audio options. Our 'Quiet Corner' is a dedicated low-sensory zone with noise-cancelling features and adjustable lighting. Staff members are trained in accessibility support and can assist with finding the perfect book in your preferred format. We host regular inclusive reading groups and author events with sign language interpreters. Visitors particularly enjoy our scented bookmarks that correspond to different genres!"
 }, {
-  id: 3,
+  id: "3",
   title: "Adaptive Clothing",
   description: "Fashion for everyone with magnetic closures, sensory-friendly fabrics, and wheelchair-friendly designs.",
   category: "Fashion",
@@ -33,7 +35,7 @@ const storeExperiences = [{
   offer: "15% discount on your first purchase when you sign up for our newsletter",
   experience: "Adaptive Clothing revolutionizes the shopping experience with fashion that truly works for everybody. Our store features extra-wide fitting rooms with grab bars, accessible mirrors, and adjustable lighting. All our clothing items incorporate innovative design elements like magnetic closures, elasticized waistbands, and sensory-friendly fabrics without tags. Our 'seated fashion' line is specifically designed for wheelchair users with longer backs on tops and special cut pants. We offer personal shopping assistants who understand various accessibility needs and can help find the perfect outfit. The store uses clear, simple signage with pictograms, and our staff are trained to provide descriptive information about colors, textures, and styles. We regularly host inclusive fashion shows featuring models with diverse abilities."
 }, {
-  id: 4,
+  id: "4",
   title: "Tech For All",
   description: "Accessible technology with trained staff to demonstrate adaptive features and assistive devices for various needs.",
   category: "Technology",
@@ -44,10 +46,12 @@ const storeExperiences = [{
 
 // Available categories
 const categories = ["All", "Jewelry", "Fashion", "Books", "Technology"];
+
 const Index: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
   const [loaded, setLoaded] = useState(false);
+  const navigate = useNavigate();
 
   // Filter stores based on active category
   useEffect(() => {
@@ -62,7 +66,13 @@ const Index: React.FC = () => {
   useEffect(() => {
     setLoaded(true);
   }, []);
-  return <div className="min-h-screen flex flex-col">
+
+  const handleRegisterStore = () => {
+    navigate('/register-store');
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
@@ -88,15 +98,30 @@ const Index: React.FC = () => {
         <h2 className="sr-only">Store Experiences</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 stagger-animate">
-          {filteredStores.map(store => <StoreCard key={store.id} title={store.title} description={store.description} category={store.category} imageUrl={store.imageUrl} offer={store.offer} giveaway={store.giveaway} experience={store.experience} className="animate-slide-in" />)}
+          {filteredStores.map(store => (
+            <StoreCard 
+              key={store.id} 
+              id={store.id}
+              title={store.title} 
+              description={store.description} 
+              category={store.category} 
+              imageUrl={store.imageUrl} 
+              offer={store.offer} 
+              giveaway={store.giveaway} 
+              experience={store.experience} 
+              className="animate-slide-in" 
+            />
+          ))}
         </div>
         
-        {filteredStores.length === 0 && <div className="text-center py-16">
+        {filteredStores.length === 0 && (
+          <div className="text-center py-16">
             <h3 className="text-xl font-medium text-textPrimary mb-3">No stores found</h3>
             <p className="text-textSecondary">
               No stores found in this category. Please try another category.
             </p>
-          </div>}
+          </div>
+        )}
       </section>
       
       {/* Accessibility Commitment Section */}
@@ -112,18 +137,20 @@ const Index: React.FC = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[{
-            title: "Physical Access",
-            description: "Stores with step-free entry, wide aisles, and accessible changing rooms and restrooms."
-          }, {
-            title: "Sensory Considerations",
-            description: "Quiet hours, reduced lighting options, and staff trained to assist those with sensory sensitivities."
-          }, {
-            title: "Communication Support",
-            description: "Alternative formats, sign language support, and clear signage with visual aids."
-          }].map((feature, index) => <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
+              title: "Physical Access",
+              description: "Stores with step-free entry, wide aisles, and accessible changing rooms and restrooms."
+            }, {
+              title: "Sensory Considerations",
+              description: "Quiet hours, reduced lighting options, and staff trained to assist those with sensory sensitivities."
+            }, {
+              title: "Communication Support",
+              description: "Alternative formats, sign language support, and clear signage with visual aids."
+            }].map((feature, index) => (
+              <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
                 <h3 className="text-lg font-medium text-textPrimary mb-3 font-montserrat">{feature.title}</h3>
                 <p className="text-textSecondary text-sm font-montserrat">{feature.description}</p>
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -138,10 +165,18 @@ const Index: React.FC = () => {
             Are you a store owner committed to accessibility? Partner with us to showcase your inclusive shopping experience.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-brand px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors font-montserrat" aria-label="Register your store">
+            <button 
+              className="bg-white text-brand px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors font-montserrat" 
+              aria-label="Register your store"
+              onClick={handleRegisterStore}
+            >
               Register Your Store
             </button>
-            <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors font-montserrat" aria-label="Learn more about our accessibility standards">
+            <button 
+              className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors font-montserrat" 
+              aria-label="Learn more about our accessibility standards"
+              onClick={() => navigate('/about')}
+            >
               Learn More
             </button>
           </div>
@@ -149,6 +184,8 @@ const Index: React.FC = () => {
       </section>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Index;

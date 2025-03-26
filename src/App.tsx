@@ -10,6 +10,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import SignIn from "./pages/SignIn";
 import Search from "./pages/Search";
+import StoreDetails from "./pages/StoreDetails";
+import RegisterStore from "./pages/RegisterStore";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,8 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/search" element={<Search />} />
+          <Route path="/store/:storeId" element={<StoreDetails />} />
+          <Route path="/register-store" element={<RegisterStore />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

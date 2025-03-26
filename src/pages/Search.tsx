@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -9,13 +10,14 @@ const Search = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const navigate = useNavigate();
 
   // Mock data for demonstration
   const mockStores = [
-    { id: 1, name: 'AccessMart', location: 'Downtown', accessibility: ['Wheelchair Ramps', 'Braille Signage'] },
-    { id: 2, name: 'InclusiveShop', location: 'Westside', accessibility: ['Hearing Loops', 'Service Animal Friendly'] },
-    { id: 3, name: 'EqualAccess Store', location: 'Eastside', accessibility: ['Wide Aisles', 'Accessible Fitting Rooms'] },
-    { id: 4, name: 'UniversalMart', location: 'Northside', accessibility: ['Accessible Restrooms', 'Visual Alarms'] },
+    { id: "1", name: 'Pao Jewellery', location: 'Downtown', accessibility: ['Wheelchair Ramps', 'Braille Signage'] },
+    { id: "2", name: 'Sensory Bookshop', location: 'Westside', accessibility: ['Hearing Loops', 'Service Animal Friendly'] },
+    { id: "3", name: 'Adaptive Clothing', location: 'Eastside', accessibility: ['Wide Aisles', 'Accessible Fitting Rooms'] },
+    { id: "4", name: 'Tech For All', location: 'Northside', accessibility: ['Accessible Restrooms', 'Visual Alarms'] },
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -33,6 +35,10 @@ const Search = () => {
     
     setSearchResults(results);
     setHasSearched(true);
+  };
+
+  const handleViewDetails = (storeId: string) => {
+    navigate(`/store/${storeId}`);
   };
 
   return (
@@ -85,6 +91,7 @@ const Search = () => {
                       <Button
                         variant="outline"
                         className="mt-3 text-[#FF5722] border-[#FF5722] hover:bg-[#FF5722] hover:text-white font-montserrat"
+                        onClick={() => handleViewDetails(store.id)}
                       >
                         View Details
                       </Button>
