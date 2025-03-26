@@ -1,5 +1,7 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
@@ -10,14 +12,84 @@ import { useToast } from '@/hooks/use-toast';
 
 const RegisterStore = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    location: '',
+    category: '',
+    description: '',
+    accessibility_features: '',
+    contact_email: ''
+  });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  // Check if user is logged in
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        toast({
+          title: "Authentication required",
+          description: "You need to be signed in to register a store.",
+          variant: "destructive",
+        });
+        navigate('/sign-in');
+      }
+    };
     
-    toast({
-      title: "Store registration submitted",
-      description: "Thank you for registering your store. We will review your submission and get back to you soon!",
-    });
+    checkSession();
+  }, [navigate, toast]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      // Get current user
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        throw new Error("You must be signed in to register a store");
+      }
+      
+      const { error } = await supabase.from('stores').insert({
+        ...formData,
+        user_id: session.user.id
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Store registration successful",
+        description: "Thank you for registering your store. It has been added to our database!",
+      });
+      
+      // Reset form
+      setFormData({
+        name: '',
+        location: '',
+        category: '',
+        description: '',
+        accessibility_features: '',
+        contact_email: ''
+      });
+      
+      // Redirect to home page
+      navigate('/');
+    } catch (error: any) {
+      toast({
+        title: "Error registering store",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -30,11 +102,13 @@ const RegisterStore = () => {
           <Card className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label htmlFor="storeName" className="block text-sm font-medium font-montserrat">
+                <label htmlFor="name" className="block text-sm font-medium font-montserrat">
                   Store Name
                 </label>
                 <Input 
-                  id="storeName" 
+                  id="name" 
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Enter your store name" 
                   required 
                   className="font-montserrat"
@@ -47,6 +121,8 @@ const RegisterStore = () => {
                 </label>
                 <Input 
                   id="location" 
+                  value={formData.location}
+                  onChange={handleChange}
                   placeholder="Store address or area" 
                   required 
                   className="font-montserrat"
@@ -59,6 +135,8 @@ const RegisterStore = () => {
                 </label>
                 <select 
                   id="category" 
+                  value={formData.category}
+                  onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand focus:border-brand font-montserrat"
                   required
                 >
@@ -80,6 +158,8 @@ const RegisterStore = () => {
                 </label>
                 <Textarea 
                   id="description" 
+                  value={formData.description}
+                  onChange={handleChange}
                   placeholder="Describe your store" 
                   required 
                   className="font-montserrat"
@@ -88,11 +168,13 @@ const RegisterStore = () => {
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="accessibility" className="block text-sm font-medium font-montserrat">
+                <label htmlFor="accessibility_features" className="block text-sm font-medium font-montserrat">
                   Accessibility Features
                 </label>
                 <Textarea 
-                  id="accessibility" 
+                  id="accessibility_features" 
+                  value={formData.accessibility_features}
+                  onChange={handleChange}
                   placeholder="List the accessibility features your store offers" 
                   required 
                   className="font-montserrat"
@@ -101,12 +183,14 @@ const RegisterStore = () => {
               </div>
               
               <div className="space-y-2">
-                <label htmlFor="contact" className="block text-sm font-medium font-montserrat">
+                <label htmlFor="contact_email" className="block text-sm font-medium font-montserrat">
                   Contact Email
                 </label>
                 <Input 
-                  id="contact" 
+                  id="contact_email" 
                   type="email"
+                  value={formData.contact_email}
+                  onChange={handleChange}
                   placeholder="Email address" 
                   required 
                   className="font-montserrat"
@@ -116,8 +200,9 @@ const RegisterStore = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-[#FF5722] hover:bg-[#FF5722]/90 text-white font-montserrat"
+                disabled={loading}
               >
-                Submit Registration
+                {loading ? "Submitting..." : "Submit Registration"}
               </Button>
             </form>
           </Card>

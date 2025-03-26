@@ -1,10 +1,31 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [session, setSession] = useState<any>(null);
+  
+  useEffect(() => {
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+    };
+    
+    getSession();
+    
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+      }
+    );
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSearch = () => {
     navigate('/search');
@@ -14,6 +35,24 @@ const Header: React.FC = () => {
   const handleSignIn = () => {
     navigate('/sign-in');
     console.log('Sign In button clicked');
+  };
+  
+  const handleSignOut = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast({
+        title: "Signed out successfully",
+        description: "You have been logged out.",
+      });
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const handleRegisterStore = () => {
+    navigate('/register-store');
+    console.log('Register Store button clicked');
   };
 
   return (
@@ -44,15 +83,40 @@ const Header: React.FC = () => {
         >
           Contact
         </a>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleSignIn}
-          className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
-          aria-label="Sign in to your account"
-        >
-          Sign In
-        </Button>
+        
+        {session ? (
+          <>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleRegisterStore}
+              className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
+              aria-label="Register your store"
+            >
+              Register Store
+            </Button>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleSignOut}
+              className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
+              aria-label="Sign out"
+            >
+              Sign Out
+            </Button>
+          </>
+        ) : (
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleSignIn}
+            className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat"
+            aria-label="Sign in to your account"
+          >
+            Sign In
+          </Button>
+        )}
+        
         <Button 
           size="sm" 
           onClick={handleSearch}
