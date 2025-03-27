@@ -87,24 +87,29 @@ const Index: React.FC = () => {
       
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-[#FF5722] to-[#FF7043]">
-        <div className={`container mx-auto text-center transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/lovable-uploads/21cbe818-5a66-401e-ae8d-a13b7f473e67.png" 
+            alt="Hero background" 
+            className="w-full h-full object-cover opacity-60 mix-blend-overlay"
+          />
+        </div>
+        <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
-          <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-6 tracking-wide font-montserrat">
+          <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-wide font-montserrat">
             Local. Smart. Connected.
           </h2>
-          <p className="text-white/80 max-w-xl mx-auto mb-10 font-montserrat">
-            Explore stores designed with accessibility in mind, providing inclusive experiences for everyone.
-          </p>
           
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 stagger-animate">
+          {/* Category Filters - Updated with more spacing and square-rounded appearance */}
+          <div className="flex flex-wrap justify-center gap-6 stagger-animate mt-8">
             {categories.map(category => <CategoryButton key={category} label={category} isActive={activeCategory === category} onClick={() => setActiveCategory(category)} className="animate-scale-in" />)}
           </div>
         </div>
       </section>
       
       {/* Main Content - Store Cards */}
-      <section className="container mx-auto px-6 py-12 -mt-6 relative z-10">
+      <section className="container mx-auto px-6 py-12 -mt-8 relative z-10">
         <h2 className="sr-only">Experiences Near You</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 stagger-animate">
