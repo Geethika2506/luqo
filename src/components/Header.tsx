@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +11,7 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { User, LogOut } from 'lucide-react';
+import Logo from '@/components/Logo';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -25,7 +25,6 @@ const Header: React.FC = () => {
       setSession(data.session);
       
       if (data.session) {
-        // Fetch user profile
         const { data: profileData, error } = await supabase
           .from('profiles')
           .select('*')
@@ -45,7 +44,6 @@ const Header: React.FC = () => {
         setSession(session);
         
         if (session) {
-          // Fetch user profile when auth state changes
           const { data: profileData, error } = await supabase
             .from('profiles')
             .select('*')
@@ -103,12 +101,7 @@ const Header: React.FC = () => {
     <header className="w-full bg-[#FF5722] py-3 px-6 flex justify-between items-center">
       <div className="flex items-center">
         <a href="/" aria-label="LUQO Home" className="mr-6">
-          <img 
-            src="/lovable-uploads/b06c87f1-5669-43fa-bea4-59295acfdc94.png" 
-            alt="" 
-            className="w-8 h-8 object-contain" 
-            aria-hidden="true"
-          />
+          <Logo size="sm" />
         </a>
       </div>
       

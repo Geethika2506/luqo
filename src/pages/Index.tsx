@@ -71,7 +71,7 @@ const Index: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-gradient relative overflow-hidden py-20 px-6 bg-indigo-950">
+      <section className="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-[#FF5722] to-[#FF7043]">
         <div className={`container mx-auto text-center transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
           <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-6 tracking-wide font-montserrat">
