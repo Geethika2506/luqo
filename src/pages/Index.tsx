@@ -119,31 +119,28 @@ const Index: React.FC = () => {
           </div>}
       </section>
       
-      {/* Accessibility Commitment Section */}
+      {/* Join Luqo Section - Replacing Accessibility Commitment Section */}
       <section className="bg-gray-50 py-16 px-6">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 text-center font-montserrat">
-            Our Accessibility Commitment
+        <div className="container mx-auto max-w-4xl text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 font-montserrat">
+            Join Luqo
           </h2>
-          <p className="text-textSecondary text-center mb-10 font-montserrat">
-            We believe shopping should be accessible to everyone. Our platform highlights stores that prioritize 
-            inclusive design and accessibility features.
+          <p className="text-textSecondary mb-8 max-w-2xl mx-auto font-montserrat">
+            Be part of our growing community of stores and shoppers dedicated to creating accessible shopping experiences.
           </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[{
-            title: "Physical Access",
-            description: "Stores with step-free entry, wide aisles, and accessible changing rooms and restrooms."
-          }, {
-            title: "Sensory Considerations",
-            description: "Quiet hours, reduced lighting options, and staff trained to assist those with sensory sensitivities."
-          }, {
-            title: "Communication Support",
-            description: "Alternative formats, sign language support, and clear signage with visual aids."
-          }].map((feature, index) => <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
-                <h3 className="text-lg font-medium text-textPrimary mb-3 font-montserrat">{feature.title}</h3>
-                <p className="text-textSecondary text-sm font-montserrat">{feature.description}</p>
-              </div>)}
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <button 
+              className="bg-brand text-white px-8 py-3 rounded-md font-medium hover:bg-brand/90 transition-colors font-montserrat"
+              onClick={handleRegisterStore}
+            >
+              Register Your Store
+            </button>
+            <button 
+              className="bg-transparent border-2 border-brand text-brand px-8 py-3 rounded-md font-medium hover:bg-brand/10 transition-colors font-montserrat"
+              onClick={() => navigate('/sign-in')}
+            >
+              Sign Up as Shopper
+            </button>
           </div>
         </div>
       </section>
