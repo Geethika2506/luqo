@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -89,11 +88,7 @@ const Index: React.FC = () => {
       <section className="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-[#FF5722] to-[#FF7043]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src="/lovable-uploads/21cbe818-5a66-401e-ae8d-a13b7f473e67.png" 
-            alt="Hero background" 
-            className="w-full h-full object-cover opacity-60 mix-blend-overlay"
-          />
+          <img src="/lovable-uploads/21cbe818-5a66-401e-ae8d-a13b7f473e67.png" alt="Hero background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" />
         </div>
         <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
@@ -134,16 +129,10 @@ const Index: React.FC = () => {
             Be part of our growing community of stores and shoppers dedicated to creating accessible shopping experiences.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button 
-              className="bg-brand text-white px-8 py-3 rounded-md font-medium hover:bg-brand/90 transition-colors font-montserrat"
-              onClick={handleRegisterStore}
-            >
+            <button className="bg-brand text-white px-8 py-3 rounded-md font-medium hover:bg-brand/90 transition-colors font-montserrat" onClick={handleRegisterStore}>
               Register Your Store
             </button>
-            <button 
-              className="bg-transparent border-2 border-brand text-brand px-8 py-3 rounded-md font-medium hover:bg-brand/10 transition-colors font-montserrat"
-              onClick={() => navigate('/sign-in')}
-            >
+            <button className="bg-transparent border-2 border-brand text-brand px-8 py-3 rounded-md font-medium hover:bg-brand/10 transition-colors font-montserrat" onClick={() => navigate('/sign-in')}>
               Sign Up as Shopper
             </button>
           </div>
@@ -151,24 +140,7 @@ const Index: React.FC = () => {
       </section>
       
       {/* CTA Section */}
-      <section className="py-16 px-6 bg-brand text-white">
-        <div className="container mx-auto text-center max-w-2xl">
-          <h2 className="text-2xl md:text-3xl font-semibold mb-6 font-montserrat">
-            Join Our Accessible Storefront Network
-          </h2>
-          <p className="mb-8 text-white/90 font-montserrat">
-            Are you a store owner committed to accessibility? Partner with us to showcase your inclusive shopping experience.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-white text-brand px-8 py-3 rounded-md font-medium hover:bg-white/90 transition-colors font-montserrat" aria-label="Register your store" onClick={handleRegisterStore}>
-              Register Your Store
-            </button>
-            <button className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-medium hover:bg-white/10 transition-colors font-montserrat" aria-label="Learn more about our accessibility standards" onClick={() => navigate('/about')}>
-              Learn More
-            </button>
-          </div>
-        </div>
-      </section>
+      
       
       <Footer />
     </div>;
