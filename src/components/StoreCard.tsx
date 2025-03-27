@@ -3,12 +3,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Tag, Gift, ChevronRight } from 'lucide-react';
+import { Tag, Gift, ChevronRight, MapPin } from 'lucide-react';
 
 interface StoreCardProps {
   title: string;
   description: string;
   category: string;
+  storeName?: string;
   imageUrl?: string;
   className?: string;
   offer?: string;
@@ -19,7 +20,8 @@ interface StoreCardProps {
 
 const StoreCard: React.FC<StoreCardProps> = ({ 
   title, 
-  description, 
+  description,
+  storeName,
   category,
   imageUrl = "https://via.placeholder.com/400x200/EEEEEE/999999", 
   className,
@@ -46,7 +48,7 @@ const StoreCard: React.FC<StoreCardProps> = ({
       >
         <img 
           src={imageUrl} 
-          alt={`${title} store`} 
+          alt={`${title} experience`} 
           className="w-full h-full object-cover"
           loading="lazy"
         />
@@ -74,6 +76,12 @@ const StoreCard: React.FC<StoreCardProps> = ({
         <h3 className="text-lg font-semibold mb-2 text-textPrimary">
           {title}
         </h3>
+        {storeName && (
+          <div className="flex items-center text-sm text-textSecondary mb-2">
+            <MapPin className="h-3.5 w-3.5 mr-1 text-brand" />
+            <span>{storeName} <span className="text-xs italic ml-1">near you</span></span>
+          </div>
+        )}
         <p className="text-textSecondary text-sm">
           {description}
         </p>

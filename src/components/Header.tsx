@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -91,10 +92,25 @@ const Header: React.FC = () => {
   };
 
   const getInitials = () => {
+    if (profile?.full_name) {
+      return profile.full_name.substring(0, 2).toUpperCase();
+    }
     if (session?.user?.email) {
       return session.user.email.substring(0, 2).toUpperCase();
     }
     return 'U';
+  };
+
+  const getDisplayName = () => {
+    if (profile?.full_name) {
+      return profile.full_name;
+    }
+    if (session?.user?.email) {
+      // Extract username from email (part before @)
+      const username = session.user.email.split('@')[0];
+      return username;
+    }
+    return 'User';
   };
 
   return (
@@ -141,7 +157,7 @@ const Header: React.FC = () => {
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-white text-sm font-montserrat hidden md:inline">
-                  {profile?.full_name || session.user.email}
+                  {getDisplayName()}
                 </span>
               </div>
             </DropdownMenuTrigger>
