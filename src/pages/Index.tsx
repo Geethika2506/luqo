@@ -64,14 +64,23 @@ const Index: React.FC = () => {
   useEffect(() => {
     setLoaded(true);
   }, []);
+  
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
+  
   return <div className="min-h-screen flex flex-col">
       <Header />
       
       {/* Hero Section */}
-      <section className="hero-gradient relative overflow-hidden py-20 px-6 bg-indigo-950">
+      <section 
+        className="relative overflow-hidden py-20 px-6" 
+        style={{
+          backgroundImage: "url('/lovable-uploads/3f284a0b-f894-4a63-bdec-0065602fe3f6.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center"
+        }}
+      >
         <div className={`container mx-auto text-center transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
           <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-6 tracking-wide font-montserrat">
