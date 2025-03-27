@@ -88,7 +88,7 @@ const Index: React.FC = () => {
       <section className="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-[#FF5722] to-[#FF7043]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img src="/lovable-uploads/21cbe818-5a66-401e-ae8d-a13b7f473e67.png" alt="Hero background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" />
+          <img alt="Hero background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" src="/lovable-uploads/f03a1028-d7d7-4ed7-a2b9-bfc1a6499441.jpg" />
         </div>
         <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
