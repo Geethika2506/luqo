@@ -18,10 +18,10 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({
   return (
     <button
       className={cn(
-        "px-6 py-3 rounded-md text-sm font-medium transition-all duration-200 focus:outline-none",
+        "px-6 py-3 rounded-md text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 min-w-[120px]",
         isActive 
-          ? "bg-brand text-white" 
-          : "bg-gray-100 text-textPrimary hover:bg-gray-200",
+          ? "bg-white text-brand shadow-md" 
+          : "bg-white/90 text-textPrimary hover:bg-white",
         className
       )}
       onClick={onClick}
