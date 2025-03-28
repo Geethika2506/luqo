@@ -85,10 +85,10 @@ const Index: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-6 bg-gradient-to-br from-[#FF5722] to-[#FF7043]">
+      <section className="relative overflow-hidden py-20 px-6">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img alt="Hero background" className="w-full h-full object-cover opacity-60 mix-blend-overlay" src="/lovable-uploads/f03a1028-d7d7-4ed7-a2b9-bfc1a6499441.jpg" />
+          <img alt="Hero background" className="w-full h-full object-cover" src="/lovable-uploads/b5e1c8f3-5786-4c71-a0de-a2580a039a6b.png" />
         </div>
         <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
@@ -119,7 +119,7 @@ const Index: React.FC = () => {
           </div>}
       </section>
       
-      {/* Join Luqo Section - Replacing Accessibility Commitment Section */}
+      {/* Join Luqo Section */}
       <section className="bg-gray-50 py-16 px-6">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 font-montserrat">
