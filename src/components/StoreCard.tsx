@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Tag, Gift, MapPin, Clock, DollarSign, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog';
 
 interface StoreCardProps {
   title: string;
@@ -82,7 +82,7 @@ const StoreCard: React.FC<StoreCardProps> = ({
     <>
       <div 
         className={cn(
-          "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all animate-fade-in opacity-0 relative",
+          "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all border border-gray-100",
           className
         )}
       >
@@ -115,9 +115,11 @@ const StoreCard: React.FC<StoreCardProps> = ({
         
         <div className="p-5">
           <div className="mb-3">
-            <span className="inline-block px-4 py-2 text-sm font-medium bg-brand text-white rounded-full mb-2">
-              {category}
-            </span>
+            <div className="inline-block mb-2">
+              <span className="inline-block px-4 py-1.5 text-sm font-medium bg-brand text-white rounded-full">
+                {category}
+              </span>
+            </div>
             <h3 className="text-xl font-bold mb-2 text-textPrimary cursor-pointer" onClick={handleViewExperience}>
               {title}
             </h3>
@@ -135,14 +137,16 @@ const StoreCard: React.FC<StoreCardProps> = ({
               <Clock className="h-4 w-4 mr-1 text-brand" />
               <span>{duration}</span>
             </div>
-            <div className="flex items-center text-sm text-textSecondary font-medium">
+            <div className="flex items-center text-sm font-medium">
               <DollarSign className="h-4 w-4 mr-1 text-brand" />
               <span>{price}</span>
             </div>
           </div>
+
+          <p className="text-sm text-gray-600 line-clamp-2 mb-4">{description}</p>
         </div>
 
-        <div className="border-t border-gray-100 mt-2">
+        <div className="border-t border-gray-100">
           <div className="grid grid-cols-2 gap-2 p-4">
             <Button 
               className="bg-brand text-white hover:bg-brand/90"
