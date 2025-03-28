@@ -3,7 +3,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { Tag, Gift, ChevronRight, MapPin } from 'lucide-react';
+import { Tag, Gift, MapPin, Clock, DollarSign, Calendar } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogAction, AlertDialogCancel, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 interface StoreCardProps {
   title: string;
@@ -16,6 +19,8 @@ interface StoreCardProps {
   giveaway?: string;
   experience?: string;
   id: string;
+  price?: string;
+  duration?: string;
 }
 
 const StoreCard: React.FC<StoreCardProps> = ({ 
@@ -27,74 +32,150 @@ const StoreCard: React.FC<StoreCardProps> = ({
   className,
   offer,
   giveaway,
-  id
+  id,
+  price = "$85",
+  duration = "3 hours"
 }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [showAuthDialog, setShowAuthDialog] = React.useState(false);
+  const [actionType, setActionType] = React.useState<'book' | 'wishlist'>('book');
 
   const handleViewExperience = () => {
     navigate(`/store/${id}`);
   };
 
+  const checkUserAuth = async (action: 'book' | 'wishlist') => {
+    const { data } = await supabase.auth.getSession();
+    if (data.session) {
+      if (action === 'book') {
+        toast({
+          title: "Booking initiated",
+          description: `You're booking ${title}. This would take you to the booking page in a real app.`,
+        });
+      } else {
+        toast({
+          title: "Added to wishlist",
+          description: `${title} has been added to your wishlist.`,
+        });
+      }
+    } else {
+      setActionType(action);
+      setShowAuthDialog(true);
+    }
+  };
+
+  const handleBookNow = () => {
+    checkUserAuth('book');
+  };
+
+  const handleWishlist = () => {
+    checkUserAuth('wishlist');
+  };
+
+  const handleSignIn = () => {
+    setShowAuthDialog(false);
+    navigate('/sign-in');
+  };
+
   return (
-    <div 
-      className={cn(
-        "bg-cardBg rounded-lg overflow-hidden card-hover animate-fade-in opacity-0 relative",
-        className
-      )}
-    >
+    <>
       <div 
-        className="h-48 w-full bg-gray-300 relative"
-        aria-hidden="true"
+        className={cn(
+          "bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all animate-fade-in opacity-0 relative",
+          className
+        )}
       >
-        <img 
-          src={imageUrl} 
-          alt={`${title} experience`} 
-          className="w-full h-full object-cover"
-          loading="lazy"
-        />
-        {(offer || giveaway) && (
-          <div className="absolute top-3 right-3 flex gap-2">
-            {offer && (
-              <div className="bg-brand text-white text-xs font-bold py-1 px-2 rounded-full flex items-center">
-                <Tag className="h-3 w-3 mr-1" />
-                OFFER
-              </div>
-            )}
-            {giveaway && (
-              <div className="bg-navyBlue text-white text-xs font-bold py-1 px-2 rounded-full flex items-center">
-                <Gift className="h-3 w-3 mr-1" />
-                GIFT
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-      <div className="p-5">
-        <span className="inline-block px-3 py-1 text-xs font-medium bg-brand text-white rounded-full mb-3">
-          {category}
-        </span>
-        <h3 className="text-lg font-semibold mb-2 text-textPrimary">
-          {title}
-        </h3>
-        {storeName && (
-          <div className="flex items-center text-sm text-textSecondary mb-2">
-            <MapPin className="h-3.5 w-3.5 mr-1 text-brand" />
-            <span>{storeName} <span className="text-xs italic ml-1">near you</span></span>
-          </div>
-        )}
-        <p className="text-textSecondary text-sm">
-          {description}
-        </p>
-        <button 
-          className="mt-4 text-brand font-medium text-sm flex items-center hover:underline focus:underline"
-          aria-label={`View details for ${title}`}
+        <div 
+          className="h-48 w-full bg-gray-300 relative cursor-pointer"
           onClick={handleViewExperience}
+          aria-hidden="true"
         >
-          View Experience
-          <ChevronRight className="h-4 w-4 ml-1" />
-        </button>
+          <img 
+            src={imageUrl} 
+            alt={`${title} experience`} 
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          {(offer || giveaway) && (
+            <div className="absolute top-3 right-3 flex gap-2">
+              {offer && (
+                <div className="bg-brand text-white text-xs font-bold py-1 px-3 rounded-full flex items-center">
+                  OFFER
+                </div>
+              )}
+              {giveaway && (
+                <div className="bg-navyBlue text-white text-xs font-bold py-1 px-3 rounded-full flex items-center">
+                  GIFT
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+        
+        <div className="p-5">
+          <div className="mb-3">
+            <span className="inline-block px-4 py-2 text-sm font-medium bg-brand text-white rounded-full mb-2">
+              {category}
+            </span>
+            <h3 className="text-xl font-bold mb-2 text-textPrimary cursor-pointer" onClick={handleViewExperience}>
+              {title}
+            </h3>
+          </div>
+
+          {storeName && (
+            <div className="flex items-center text-sm text-textSecondary mb-3">
+              <MapPin className="h-4 w-4 mr-1 text-brand" />
+              <span>{storeName} <span className="text-xs italic ml-1">near you</span></span>
+            </div>
+          )}
+
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center text-sm text-textSecondary">
+              <Clock className="h-4 w-4 mr-1 text-brand" />
+              <span>{duration}</span>
+            </div>
+            <div className="flex items-center text-sm text-textSecondary font-medium">
+              <DollarSign className="h-4 w-4 mr-1 text-brand" />
+              <span>{price}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-100 mt-2">
+          <div className="grid grid-cols-2 gap-2 p-4">
+            <Button 
+              className="bg-brand text-white hover:bg-brand/90"
+              onClick={handleBookNow}
+            >
+              Book Now
+            </Button>
+            <Button 
+              variant="outline" 
+              className="border-brand text-brand hover:bg-brand/5"
+              onClick={handleWishlist}
+            >
+              Add to Wishlist
+            </Button>
+          </div>
+        </div>
       </div>
-    </div>
+
+      <AlertDialog open={showAuthDialog} onOpenChange={setShowAuthDialog}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Sign in required</AlertDialogTitle>
+            <AlertDialogDescription>
+              You need to be signed in to {actionType === 'book' ? 'book this experience' : 'add to wishlist'}.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleSignIn}>Sign in</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 
