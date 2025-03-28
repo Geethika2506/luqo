@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -7,17 +6,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tag, Gift, ArrowLeft, Heart, Calendar } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { toast } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
 
-// This would come from an API in a real app
 const storeExperiences = [
   {
     id: "1",
     title: "Pao Jewellery",
     description: "Experience handcrafted jewelry with audio descriptions and touchable display samples. Friendly staff trained in sign language.",
     category: "Jewelry",
-    imageUrl: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "/lovable-uploads/6b774e61-15cb-43c7-867e-e6d05791f46b.png",
     offer: "20% off on all handcrafted necklaces when you mention LUQO at checkout",
     giveaway: "Free sterling silver earrings with purchases over $100 this month",
     experience: "At Pao Jewellery, we've created an inclusive shopping environment where everyone can appreciate the beauty of our handcrafted pieces. Our showroom features enhanced lighting and magnifying glasses to help you see intricate details. Each display includes Braille descriptions and our staff members are trained in basic sign language. We offer a unique 'touch collection' where you can feel the textures and weights of different designs. Audio descriptions are available for each jewelry piece, and our counters are at varied heights to accommodate wheelchair users. We regularly host sensory-friendly shopping hours with reduced lighting and sound."
@@ -27,7 +24,7 @@ const storeExperiences = [
     title: "Sensory Bookshop",
     description: "Browse our extensive collection of books with braille options, audiobooks, and a calm sensory-friendly environment.",
     category: "Books",
-    imageUrl: "https://images.unsplash.com/photo-1526243741027-444d633d7365?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80",
+    imageUrl: "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png",
     offer: "Buy one audiobook, get one 50% off through the end of the month",
     giveaway: "Free tote bag with purchases over $50",
     experience: "The Sensory Bookshop is designed to be a sanctuary for all book lovers. Our store layout features wide aisles for easy navigation, and we have a selection of adjustable reading chairs to accommodate various needs. We're proud to offer an extensive collection of books in multiple formats: traditional print, large print, braille, and digital/audio options. Our 'Quiet Corner' is a dedicated low-sensory zone with noise-cancelling features and adjustable lighting. Staff members are trained in accessibility support and can assist with finding the perfect book in your preferred format. We host regular inclusive reading groups and author events with sign language interpreters. Visitors particularly enjoy our scented bookmarks that correspond to different genres!"
@@ -37,7 +34,7 @@ const storeExperiences = [
     title: "Adaptive Clothing",
     description: "Fashion for everyone with magnetic closures, sensory-friendly fabrics, and wheelchair-friendly designs.",
     category: "Fashion",
-    imageUrl: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "/lovable-uploads/72f411e9-fdd4-4d19-8c4e-6ef7a54aa8e4.png",
     offer: "15% discount on your first purchase when you sign up for our newsletter",
     experience: "Adaptive Clothing revolutionizes the shopping experience with fashion that truly works for everybody. Our store features extra-wide fitting rooms with grab bars, accessible mirrors, and adjustable lighting. All our clothing items incorporate innovative design elements like magnetic closures, elasticized waistbands, and sensory-friendly fabrics without tags. Our 'seated fashion' line is specifically designed for wheelchair users with longer backs on tops and special cut pants. We offer personal shopping assistants who understand various accessibility needs and can help find the perfect outfit. The store uses clear, simple signage with pictograms, and our staff are trained to provide descriptive information about colors, textures, and styles. We regularly host inclusive fashion shows featuring models with diverse abilities."
   },
@@ -46,7 +43,7 @@ const storeExperiences = [
     title: "Tech For All",
     description: "Accessible technology with trained staff to demonstrate adaptive features and assistive devices for various needs.",
     category: "Technology",
-    imageUrl: "https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    imageUrl: "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png",
     giveaway: "Free accessibility starter pack with purchases over $200",
     experience: "Tech For All creates an environment where everyone can explore and learn about adaptive technology. Our store features demonstration stations where you can try various assistive technologies, from screen readers to adaptive gaming controllers. All display products are fully charged and ready to test, with clear, jargon-free instructions in multiple formats. Our staff are certified in accessibility training and can customize technology solutions for individual needs. We offer regular workshops on topics like 'Introduction to Voice Commands' and 'Making Your Smart Home Accessible.' The store layout includes tactile flooring to guide visitors with visual impairments, and all product information is available in multiple formats including braille, large print, and audio. We're particularly proud of our 'Tech Buddies' program, which pairs customers with knowledgeable staff for personalized shopping assistance."
   }
@@ -61,7 +58,6 @@ const StoreDetails = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // In a real app, we would fetch from an API
     const foundStore = storeExperiences.find(s => s.id === storeId);
     
     if (foundStore) {
@@ -159,7 +155,6 @@ const StoreDetails = () => {
               <p className="text-gray-700 font-montserrat">{store.experience}</p>
             </div>
             
-            {/* Action Buttons */}
             <div className="flex flex-wrap gap-4 mb-8">
               {isSignedIn ? (
                 <>
