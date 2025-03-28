@@ -5,7 +5,10 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tag, Gift, ArrowLeft } from 'lucide-react';
+import { Tag, Gift, ArrowLeft, Heart, Calendar } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { toast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 // This would come from an API in a real app
 const storeExperiences = [
@@ -54,6 +57,8 @@ const StoreDetails = () => {
   const navigate = useNavigate();
   const [store, setStore] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [isSignedIn, setIsSignedIn] = useState(false); // Mock auth state
+  const { toast } = useToast();
 
   useEffect(() => {
     // In a real app, we would fetch from an API
@@ -67,6 +72,24 @@ const StoreDetails = () => {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleBookNow = () => {
+    if (isSignedIn) {
+      toast({
+        title: "Booking Confirmed!",
+        description: `You've booked the experience at ${store.title}.`,
+      });
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    if (isSignedIn) {
+      toast({
+        title: "Added to Wishlist",
+        description: `${store.title} has been added to your wishlist.`,
+      });
+    }
   };
 
   if (loading) {
@@ -134,6 +157,76 @@ const StoreDetails = () => {
             <div className="mb-8">
               <h2 className="text-2xl font-semibold mb-4 font-montserrat">Shopping Experience</h2>
               <p className="text-gray-700 font-montserrat">{store.experience}</p>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-4 mb-8">
+              {isSignedIn ? (
+                <>
+                  <Button 
+                    className="flex items-center gap-2 bg-brand hover:bg-brand/90"
+                    onClick={handleBookNow}
+                  >
+                    <Calendar className="h-4 w-4" />
+                    Book Now
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="flex items-center gap-2 border-brand text-brand hover:bg-brand/10"
+                    onClick={handleAddToWishlist}
+                  >
+                    <Heart className="h-4 w-4" />
+                    Add to Wishlist
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button className="flex items-center gap-2 bg-brand hover:bg-brand/90">
+                        <Calendar className="h-4 w-4" />
+                        Book Now
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Sign in required</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          You need to sign in before booking this experience.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => navigate('/sign-in')}>Sign In</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                  
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        variant="outline" 
+                        className="flex items-center gap-2 border-brand text-brand hover:bg-brand/10"
+                      >
+                        <Heart className="h-4 w-4" />
+                        Add to Wishlist
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Sign in required</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          You need to sign in before adding items to your wishlist.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => navigate('/sign-in')}>Sign In</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </>
+              )}
             </div>
             
             {(store.offer || store.giveaway) && (
