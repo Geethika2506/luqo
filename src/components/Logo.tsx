@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface LogoProps {
   className?: string;
@@ -8,6 +9,8 @@ interface LogoProps {
 }
 
 const Logo: React.FC<LogoProps> = ({ className, size = "md" }) => {
+  const isMobile = useIsMobile();
+
   const sizeClasses = {
     sm: "text-2xl",
     md: "text-4xl",
@@ -19,6 +22,7 @@ const Logo: React.FC<LogoProps> = ({ className, size = "md" }) => {
       className={cn(
         "font-bold tracking-tighter text-white animate-logo-glow font-montserrat", 
         sizeClasses[size],
+        isMobile ? "flex space-x-1" : "",
         className
       )}
       aria-label="LUQO"
