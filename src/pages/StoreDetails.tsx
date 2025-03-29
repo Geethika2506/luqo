@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -7,10 +8,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tag, Gift, ArrowLeft, Heart, Calendar } from 'lucide-react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { format } from "date-fns";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { supabase } from '@/integrations/supabase/client';
 
 const storeExperiences = [
   {
@@ -58,166 +55,36 @@ const StoreDetails = () => {
   const navigate = useNavigate();
   const [store, setStore] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
+  const [isSignedIn, setIsSignedIn] = useState(false); // Mock auth state
   const { toast } = useToast();
-  const [bookingDate, setBookingDate] = useState<Date | undefined>(undefined);
-  const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
-  const [availableDates, setAvailableDates] = useState<Date[]>([]);
-  const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
     const foundStore = storeExperiences.find(s => s.id === storeId);
     
     if (foundStore) {
       setStore(foundStore);
-      
-      // Generate some available dates for the next 30 days
-      const dates = [];
-      const today = new Date();
-      for (let i = 1; i <= 30; i++) {
-        // Skip some days to make it look realistic
-        if (i % 3 !== 0) {
-          const date = new Date();
-          date.setDate(today.getDate() + i);
-          dates.push(date);
-        }
-      }
-      setAvailableDates(dates);
     }
     setLoading(false);
   }, [storeId]);
-
-  useEffect(() => {
-    const checkSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      
-      // Check if store is in wishlist
-      if (data.session && store) {
-        checkWishlistStatus(data.session.user.id, store.id);
-      }
-    };
-
-    checkSession();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        setSession(session);
-        
-        // Check if store is in wishlist when session changes
-        if (session && store) {
-          checkWishlistStatus(session.user.id, store.id);
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [store]);
-  
-  const checkWishlistStatus = async (userId: string, storeId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('wishlist')
-        .select('id')
-        .eq('user_id', userId)
-        .eq('store_id', storeId);
-        
-      if (error) throw error;
-      
-      setIsInWishlist(data && data.length > 0);
-    } catch (error) {
-      console.error('Error checking wishlist status:', error);
-    }
-  };
 
   const handleGoBack = () => {
     navigate(-1);
   };
 
   const handleBookNow = () => {
-    if (session) {
-      setIsBookingDialogOpen(true);
-    }
-  };
-
-  const handleConfirmBooking = async () => {
-    if (!bookingDate || !session || !store) return;
-    
-    try {
-      // Here you would typically save the booking to your database
+    if (isSignedIn) {
       toast({
         title: "Booking Confirmed!",
-        description: `You've booked the experience at ${store.title} for ${format(bookingDate, 'PPPP')}.`,
-      });
-      setIsBookingDialogOpen(false);
-      setBookingDate(undefined);
-    } catch (error) {
-      console.error('Error booking:', error);
-      toast({
-        title: "Booking Failed",
-        description: "There was an error processing your booking. Please try again.",
-        variant: "destructive"
+        description: `You've booked the experience at ${store.title}.`,
       });
     }
   };
 
-  const handleAddToWishlist = async () => {
-    if (!session || !store) return;
-    
-    try {
-      // If already in wishlist, remove it
-      if (isInWishlist) {
-        const { data, error: fetchError } = await supabase
-          .from('wishlist')
-          .select('id')
-          .eq('user_id', session.user.id)
-          .eq('store_id', store.id);
-          
-        if (fetchError) throw fetchError;
-        
-        if (data && data.length > 0) {
-          const { error: deleteError } = await supabase
-            .from('wishlist')
-            .delete()
-            .eq('id', data[0].id);
-            
-          if (deleteError) throw deleteError;
-          
-          setIsInWishlist(false);
-          
-          toast({
-            title: "Removed from Wishlist",
-            description: `${store.title} has been removed from your wishlist.`,
-          });
-        }
-        return;
-      }
-      
-      // Add to wishlist
-      const { error } = await supabase
-        .from('wishlist')
-        .insert({
-          user_id: session.user.id,
-          store_id: store.id,
-          store_name: store.title,
-          store_image: store.imageUrl,
-          store_category: store.category,
-        });
-
-      if (error) throw error;
-      
-      setIsInWishlist(true);
-
+  const handleAddToWishlist = () => {
+    if (isSignedIn) {
       toast({
         title: "Added to Wishlist",
         description: `${store.title} has been added to your wishlist.`,
-      });
-    } catch (error) {
-      console.error('Error managing wishlist:', error);
-      toast({
-        title: "Action Failed",
-        description: "There was an error managing your wishlist. Please try again.",
-        variant: "destructive"
       });
     }
   };
@@ -290,7 +157,7 @@ const StoreDetails = () => {
             </div>
             
             <div className="flex flex-wrap gap-4 mb-8">
-              {session ? (
+              {isSignedIn ? (
                 <>
                   <Button 
                     className="flex items-center gap-2 bg-brand hover:bg-brand/90"
@@ -301,13 +168,11 @@ const StoreDetails = () => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className={`flex items-center gap-2 ${isInWishlist 
-                      ? "border-red-500 text-red-500 hover:bg-red-50" 
-                      : "border-brand text-brand hover:bg-brand/10"}`}
+                    className="flex items-center gap-2 border-brand text-brand hover:bg-brand/10"
                     onClick={handleAddToWishlist}
                   >
-                    <Heart className={`h-4 w-4 ${isInWishlist ? "fill-red-500" : ""}`} />
-                    {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+                    <Heart className="h-4 w-4" />
+                    Add to Wishlist
                   </Button>
                 </>
               ) : (
@@ -387,55 +252,6 @@ const StoreDetails = () => {
             )}
           </CardContent>
         </Card>
-
-        {/* Booking Dialog */}
-        <Dialog open={isBookingDialogOpen} onOpenChange={setIsBookingDialogOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Select a Date</DialogTitle>
-            </DialogHeader>
-            <div className="py-4">
-              <p className="mb-4 text-sm text-gray-600">
-                Please select a date for your experience at {store?.title}:
-              </p>
-              <div className="flex justify-center">
-                <CalendarComponent
-                  mode="single"
-                  selected={bookingDate}
-                  onSelect={setBookingDate}
-                  disabled={[
-                    { before: new Date() },
-                    (date) => {
-                      // Disable dates that are not in availableDates
-                      return !availableDates.some(
-                        availableDate => 
-                          availableDate.getDate() === date.getDate() &&
-                          availableDate.getMonth() === date.getMonth() &&
-                          availableDate.getFullYear() === date.getFullYear()
-                      );
-                    }
-                  ]}
-                  className="p-3 pointer-events-auto"
-                />
-              </div>
-              {bookingDate && (
-                <p className="mt-4 text-center text-sm font-medium text-brand">
-                  You selected: {format(bookingDate, 'PPPP')}
-                </p>
-              )}
-            </div>
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setIsBookingDialogOpen(false)}>Cancel</Button>
-              <Button 
-                onClick={handleConfirmBooking} 
-                disabled={!bookingDate}
-                className="bg-brand hover:bg-brand/90"
-              >
-                Confirm Booking
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </main>
       <Footer />
     </div>
