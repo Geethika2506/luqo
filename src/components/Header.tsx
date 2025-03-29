@@ -11,7 +11,7 @@ import {
   DropdownMenuItem, 
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, Heart } from 'lucide-react';
 import Logo from '@/components/Logo';
 
 const Header: React.FC = () => {
@@ -91,6 +91,11 @@ const Header: React.FC = () => {
     console.log('Register Store button clicked');
   };
 
+  const handleProfile = () => {
+    navigate('/profile');
+    console.log('Profile button clicked');
+  };
+
   const getInitials = () => {
     if (profile?.full_name) {
       return profile.full_name.substring(0, 2).toUpperCase();
@@ -162,6 +167,10 @@ const Header: React.FC = () => {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem onClick={handleProfile} className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleRegisterStore} className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Register Store</span>
