@@ -11,13 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 const storeExperiences = [
   {
     id: "1",
-    title: "Pao Jewellery",
-    description: "Experience handcrafted jewelry with audio descriptions and touchable display samples. Friendly staff trained in sign language.",
-    category: "Jewelry",
+    title: "Pagde Swimwear",
+    description: "Create unique charms to add a personalized touch to your swimwear.",
+    category: "Swimwear",
     imageUrl: "/lovable-uploads/6b774e61-15cb-43c7-867e-e6d05791f46b.png",
-    offer: "20% off on all handcrafted necklaces when you mention LUQO at checkout",
-    giveaway: "Free sterling silver earrings with purchases over $100 this month",
-    experience: "At Pao Jewellery, we've created an inclusive shopping environment where everyone can appreciate the beauty of our handcrafted pieces. Our showroom features enhanced lighting and magnifying glasses to help you see intricate details. Each display includes Braille descriptions and our staff members are trained in basic sign language. We offer a unique 'touch collection' where you can feel the textures and weights of different designs. Audio descriptions are available for each jewelry piece, and our counters are at varied heights to accommodate wheelchair users. We regularly host sensory-friendly shopping hours with reduced lighting and sound."
+    offer: "20% off on all handcrafted charms when you mention LUQO at checkout",
+    giveaway: "Free charm with purchases over $75 this month",
+    experience: "At Pagde Swimwear, we've created an inclusive shopping environment where everyone can appreciate the beauty of our handcrafted swimwear pieces. Our showroom features enhanced lighting and magnifying glasses to help you see intricate details. Each display includes Braille descriptions and our staff members are trained in basic sign language. We offer a unique 'touch collection' where you can feel the textures and weights of different designs. Audio descriptions are available for each swimwear piece, and our counters are at varied heights to accommodate wheelchair users. We regularly host sensory-friendly shopping hours with reduced lighting and sound."
   },
   {
     id: "2",
