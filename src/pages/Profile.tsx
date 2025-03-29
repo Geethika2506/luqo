@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Trash2, Heart } from 'lucide-react';
+import { Trash2, Heart, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 
 type WishlistItem = {

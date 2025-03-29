@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -64,6 +63,7 @@ const StoreDetails = () => {
   const [bookingDate, setBookingDate] = useState<Date | undefined>(undefined);
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
   const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
     const foundStore = storeExperiences.find(s => s.id === storeId);
@@ -91,18 +91,44 @@ const StoreDetails = () => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
       setSession(data.session);
+      
+      // Check if store is in wishlist
+      if (data.session && store) {
+        checkWishlistStatus(data.session.user.id, store.id);
+      }
     };
 
     checkSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         setSession(session);
+        
+        // Check if store is in wishlist when session changes
+        if (session && store) {
+          checkWishlistStatus(session.user.id, store.id);
+        }
       }
     );
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [store]);
+  
+  const checkWishlistStatus = async (userId: string, storeId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('wishlist')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('store_id', storeId);
+        
+      if (error) throw error;
+      
+      setIsInWishlist(data && data.length > 0);
+    } catch (error) {
+      console.error('Error checking wishlist status:', error);
+    }
+  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -139,26 +165,34 @@ const StoreDetails = () => {
     if (!session || !store) return;
     
     try {
-      // Check if item is already in wishlist
-      const { data: existingItems, error: checkError } = await supabase
-        .from('wishlist')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .eq('store_id', store.id)
-        .single();
-
-      if (checkError && checkError.code !== 'PGRST116') {
-        throw checkError;
-      }
-
-      if (existingItems) {
-        toast({
-          title: "Already in Wishlist",
-          description: `${store.title} is already in your wishlist.`,
-        });
+      // If already in wishlist, remove it
+      if (isInWishlist) {
+        const { data, error: fetchError } = await supabase
+          .from('wishlist')
+          .select('id')
+          .eq('user_id', session.user.id)
+          .eq('store_id', store.id);
+          
+        if (fetchError) throw fetchError;
+        
+        if (data && data.length > 0) {
+          const { error: deleteError } = await supabase
+            .from('wishlist')
+            .delete()
+            .eq('id', data[0].id);
+            
+          if (deleteError) throw deleteError;
+          
+          setIsInWishlist(false);
+          
+          toast({
+            title: "Removed from Wishlist",
+            description: `${store.title} has been removed from your wishlist.`,
+          });
+        }
         return;
       }
-
+      
       // Add to wishlist
       const { error } = await supabase
         .from('wishlist')
@@ -168,20 +202,21 @@ const StoreDetails = () => {
           store_name: store.title,
           store_image: store.imageUrl,
           store_category: store.category,
-          added_at: new Date().toISOString(),
         });
 
       if (error) throw error;
+      
+      setIsInWishlist(true);
 
       toast({
         title: "Added to Wishlist",
         description: `${store.title} has been added to your wishlist.`,
       });
     } catch (error) {
-      console.error('Error adding to wishlist:', error);
+      console.error('Error managing wishlist:', error);
       toast({
         title: "Action Failed",
-        description: "There was an error adding this item to your wishlist.",
+        description: "There was an error managing your wishlist. Please try again.",
         variant: "destructive"
       });
     }
@@ -266,11 +301,13 @@ const StoreDetails = () => {
                   </Button>
                   <Button 
                     variant="outline" 
-                    className="flex items-center gap-2 border-brand text-brand hover:bg-brand/10"
+                    className={`flex items-center gap-2 ${isInWishlist 
+                      ? "border-red-500 text-red-500 hover:bg-red-50" 
+                      : "border-brand text-brand hover:bg-brand/10"}`}
                     onClick={handleAddToWishlist}
                   >
-                    <Heart className="h-4 w-4" />
-                    Add to Wishlist
+                    <Heart className={`h-4 w-4 ${isInWishlist ? "fill-red-500" : ""}`} />
+                    {isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
                   </Button>
                 </>
               ) : (
