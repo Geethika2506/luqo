@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -13,7 +14,7 @@ const storeExperiences = [{
   storeName: "Pagde Swimwear",
   description: "Create unique charms to add a personalized touch to your swimwear.",
   category: "Workshops",
-  imageUrl: "/lovable-uploads/6b774e61-15cb-43c7-867e-e6d05791f46b.png",
+  imageUrl: "/lovable-uploads/5528c405-81a3-4c7f-b76e-09726fd8e8ad.png",
   offer: "20% off for first-time attendees",
   giveaway: "Take home your handmade creation",
   experience: "At Pagde Swimwear, we've created an inclusive shopping environment where everyone can appreciate the beauty of our handcrafted swimwear pieces. Our showroom features enhanced lighting and magnifying glasses to help you see intricate details. Each display includes Braille descriptions and our staff members are trained in basic sign language. We offer a unique 'touch collection' where you can feel the textures and weights of different designs. Audio descriptions are available for each swimwear piece, and our counters are at varied heights to accommodate wheelchair users. We regularly host sensory-friendly shopping hours with reduced lighting and sound."
