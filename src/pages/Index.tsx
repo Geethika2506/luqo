@@ -85,7 +85,7 @@ const Index: React.FC = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden mx-0 py-[39px] px-[113px]">
+      <section className="relative overflow-hidden mx-0 py-[39px] px-[110px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img alt="Hero background" className="w-full h-full object-cover" src="/lovable-uploads/b5e1c8f3-5786-4c71-a0de-a2580a039a6b.png" />
