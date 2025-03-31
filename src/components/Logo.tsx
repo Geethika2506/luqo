@@ -16,10 +16,10 @@ const Logo: React.FC<LogoProps> = ({
     lg: "text-6xl"
   };
   return <h1 className={cn("font-bold tracking-tighter text-white animate-logo-glow font-montserrat", sizeClasses[size], isMobile ? "flex space-x-1" : "", className)} aria-label="LUQO">
-      <span className="inline-block mx-[4px]">L</span>
-      <span className="inline-block mx-[7px]">U</span>
-      <span className="inline-block mx-[8px]">Q</span>
-      <span className="inline-block">O</span>
+      <span className="inline-block mx-0 px-[28px]">LUQO</span>
+      <span className="inline-block mx-[7px]"></span>
+      <span className="inline-block mx-[7px]"></span>
+      <span className="inline-block mx-0"></span>
     </h1>;
 };
 export default Logo;

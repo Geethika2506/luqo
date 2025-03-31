@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -93,7 +92,7 @@ const Index: React.FC = () => {
         </div>
         <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
           <Logo size="lg" className="mx-auto mb-10" />
-          <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-wide font-montserrat">
+          <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-wide font-montserrat px-0">
             Local. Smart. Connected.
           </h2>
           
