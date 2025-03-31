@@ -95,14 +95,14 @@ const Header: React.FC = () => {
     }
     return 'User';
   };
-  return <header className="w-full bg-[#FF5722] flex justify-between items-center px-0 py-[6px]">
+  return <header className="w-full bg-[#FF5722] flex justify-between items-center py-[6px] mx-0 my-0 px-0">
       <div className="flex items-center">
         <a href="/" aria-label="LUQO Home" className="mr-6 px-0">
           <Logo size="sm" />
         </a>
       </div>
       
-      <div className="flex items-center space-x-4 px-0">
+      <div className="flex items-center space-x-4 px-0 my-[8px] py-0 mx-0">
         <a href="/about" aria-label="About us" className="text-white hover:underline focus:underline text-sm font-medium transition-all font-montserrat mx-0">
           About
         </a>
