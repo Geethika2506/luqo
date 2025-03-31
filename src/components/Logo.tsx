@@ -1,38 +1,25 @@
-
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 interface LogoProps {
   className?: string;
   size?: "sm" | "md" | "lg";
 }
-
-const Logo: React.FC<LogoProps> = ({ className, size = "md" }) => {
+const Logo: React.FC<LogoProps> = ({
+  className,
+  size = "md"
+}) => {
   const isMobile = useIsMobile();
-
   const sizeClasses = {
     sm: "text-2xl",
     md: "text-4xl",
     lg: "text-6xl"
   };
-
-  return (
-    <h1 
-      className={cn(
-        "font-bold tracking-tighter text-white animate-logo-glow font-montserrat", 
-        sizeClasses[size],
-        isMobile ? "flex space-x-1" : "",
-        className
-      )}
-      aria-label="LUQO"
-    >
-      <span className="inline-block">L</span>
-      <span className="inline-block">U</span>
-      <span className="inline-block">Q</span>
+  return <h1 className={cn("font-bold tracking-tighter text-white animate-logo-glow font-montserrat", sizeClasses[size], isMobile ? "flex space-x-1" : "", className)} aria-label="LUQO">
+      <span className="inline-block mx-[4px]">L</span>
+      <span className="inline-block mx-[7px]">U</span>
+      <span className="inline-block mx-[8px]">Q</span>
       <span className="inline-block">O</span>
-    </h1>
-  );
+    </h1>;
 };
-
 export default Logo;
