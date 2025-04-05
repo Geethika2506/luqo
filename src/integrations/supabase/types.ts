@@ -72,6 +72,36 @@ export type Database = {
         }
         Relationships: []
       }
+      wishlist: {
+        Row: {
+          added_at: string
+          id: string
+          store_category: string
+          store_id: string
+          store_image: string
+          store_name: string
+          user_id: string
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          store_category: string
+          store_id: string
+          store_image: string
+          store_name: string
+          user_id: string
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          store_category?: string
+          store_id?: string
+          store_image?: string
+          store_name?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

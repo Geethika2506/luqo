@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -5,6 +6,7 @@ import CategoryButton from '@/components/CategoryButton';
 import StoreCard from '@/components/StoreCard';
 import Footer from '@/components/Footer';
 import Logo from '@/components/Logo';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Enhanced experience data with real images, offers, giveaways, and locations
 const storeExperiences = [{
@@ -64,6 +66,7 @@ const Index: React.FC = () => {
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
   const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   // Filter stores based on active category
   useEffect(() => {
@@ -78,69 +81,80 @@ const Index: React.FC = () => {
   useEffect(() => {
     setLoaded(true);
   }, []);
+
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
+
   return <div className="min-h-screen flex flex-col">
       <Header />
       
-      {/* Hero Section */}
-      <section className="relative overflow-hidden mx-0 py-[39px] px-[102px]">
+      {/* Hero Section - Updated for better centering and mobile responsiveness */}
+      <section className="relative overflow-hidden py-8 md:py-12 lg:py-[39px] px-4 md:px-6 lg:px-[102px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img alt="Hero background" className="w-full h-full object-cover" src="/lovable-uploads/b5e1c8f3-5786-4c71-a0de-a2580a039a6b.png" />
         </div>
-        <div className={`container mx-auto text-center relative z-10 transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
-          <Logo size="lg" className="mx-auto mb-10" />
-          <h2 className="text-white text-2xl md:text-3xl font-light max-w-2xl mx-auto mb-12 tracking-wide font-montserrat px-0">
-            Local. Smart. Connected.
-          </h2>
-          
-          {/* Category Filters - Updated with more spacing and square-rounded appearance */}
-          <div className="flex flex-wrap justify-center gap-6 stagger-animate mt-8">
-            {categories.map(category => <CategoryButton key={category} label={category} isActive={activeCategory === category} onClick={() => setActiveCategory(category)} className="animate-scale-in" />)}
+        
+        {/* Centered Content Container */}
+        <div className="relative z-10 flex flex-col items-center justify-center min-h-[200px] md:min-h-[250px] lg:min-h-[300px]">
+          <div className={`text-center transition-opacity duration-700 ${loaded ? 'opacity-100' : 'opacity-0'}`} id="main-content" tabIndex={-1}>
+            <Logo size={isMobile ? "md" : "lg"} className="mx-auto mb-4 md:mb-6 lg:mb-10" />
+            <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-light max-w-md md:max-w-lg lg:max-w-2xl mx-auto mb-6 md:mb-8 lg:mb-12 tracking-wide font-montserrat px-2">
+              Local. Smart. Connected.
+            </h2>
+            
+            {/* Category Filters - Updated with responsive spacing */}
+            <div className="flex flex-wrap justify-center gap-2 md:gap-4 lg:gap-6 stagger-animate mt-4 md:mt-6 lg:mt-8">
+              {categories.map(category => (
+                <CategoryButton 
+                  key={category} 
+                  label={category} 
+                  isActive={activeCategory === category} 
+                  onClick={() => setActiveCategory(category)} 
+                  className="animate-scale-in" 
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
       
-      {/* Main Content - Store Cards */}
-      <section className="container mx-auto px-6 py-12 -mt-8 relative z-10">
+      {/* Main Content - Store Cards with improved responsive spacing */}
+      <section className="container mx-auto px-4 md:px-6 py-8 md:py-12 -mt-4 md:-mt-6 lg:-mt-8 relative z-10">
         <h2 className="sr-only">Experiences Near You</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 stagger-animate">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 lg:gap-8 stagger-animate">
           {filteredStores.map(store => <StoreCard key={store.id} id={store.id} title={store.title} storeName={store.storeName} description={store.description} category={store.category} imageUrl={store.imageUrl} offer={store.offer} giveaway={store.giveaway} experience={store.experience} className="animate-slide-in" />)}
         </div>
         
-        {filteredStores.length === 0 && <div className="text-center py-16">
-            <h3 className="text-xl font-medium text-textPrimary mb-3">No experiences found</h3>
+        {filteredStores.length === 0 && <div className="text-center py-8 md:py-16">
+            <h3 className="text-lg md:text-xl font-medium text-textPrimary mb-2 md:mb-3">No experiences found</h3>
             <p className="text-textSecondary">
               No experiences found in this category. Please try another category.
             </p>
           </div>}
       </section>
       
-      {/* Join Luqo Section */}
-      <section className="bg-gray-50 py-16 px-6">
+      {/* Join Luqo Section with improved responsive spacing */}
+      <section className="bg-gray-50 py-10 md:py-16 px-4 md:px-6">
         <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 font-montserrat">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-textPrimary mb-4 md:mb-6 font-montserrat">
             Join Luqo
           </h2>
-          <p className="text-textSecondary mb-8 max-w-2xl mx-auto font-montserrat">
+          <p className="text-sm md:text-base text-textSecondary mb-6 md:mb-8 max-w-xl md:max-w-2xl mx-auto font-montserrat">
             Be part of our growing community of stores and shoppers dedicated to creating accessible shopping experiences.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-brand text-white px-8 py-3 rounded-md font-medium hover:bg-brand/90 transition-colors font-montserrat" onClick={handleRegisterStore}>
+          <div className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
+            <button className="bg-brand text-white px-6 md:px-8 py-2 md:py-3 rounded-md font-medium hover:bg-brand/90 transition-colors font-montserrat text-sm md:text-base" onClick={handleRegisterStore}>
               Register Your Store
             </button>
-            <button className="bg-transparent border-2 border-brand text-brand px-8 py-3 rounded-md font-medium hover:bg-brand/10 transition-colors font-montserrat" onClick={() => navigate('/sign-in')}>
+            <button className="bg-transparent border-2 border-brand text-brand px-6 md:px-8 py-2 md:py-3 rounded-md font-medium hover:bg-brand/10 transition-colors font-montserrat text-sm md:text-base" onClick={() => navigate('/sign-in')}>
               Sign Up as Shopper
             </button>
           </div>
         </div>
       </section>
-      
-      {/* CTA Section */}
-      
       
       <Footer />
     </div>;
