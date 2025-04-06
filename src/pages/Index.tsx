@@ -1,13 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
-import CategoryButton from '@/components/CategoryButton';
-import StoreCard from '@/components/StoreCard';
 import Footer from '@/components/Footer';
-import Logo from '@/components/Logo';
-import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
+import StoreCard from '@/components/StoreCard';
+import CategoryTabs from '@/components/CategoryTabs';
+import { Palmtree, Utensils, Palette } from 'lucide-react';
 
 // Enhanced experience data with real images, offers, giveaways, and locations
 const storeExperiences = [{
@@ -45,7 +45,7 @@ const storeExperiences = [{
   storeName: "Tech For All",
   description: "Join our guided photography walk through scenic locations. All skill levels welcome.",
   category: "Outdoors",
-  imageUrl: "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png",
+  imageUrl: "/lovable-uploads/b5e8ca1f-e525-41dc-8723-feefb1c729ac.png",
   giveaway: "Free photography guide e-book",
   experience: "Tech For All creates an environment where everyone can explore and learn about adaptive technology. Our store features demonstration stations where you can try various assistive technologies, from screen readers to adaptive gaming controllers. All display products are fully charged and ready to test, with clear, jargon-free instructions in multiple formats. Our staff are certified in accessibility training and can customize technology solutions for individual needs. We offer regular workshops on topics like 'Introduction to Voice Commands' and 'Making Your Smart Home Accessible.' The store layout includes tactile flooring to guide visitors with visual impairments, and all product information is available in multiple formats including braille, large print, and audio. We're particularly proud of our 'Tech Buddies' program, which pairs customers with knowledgeable staff for personalized shopping assistance."
 }, {
@@ -54,40 +54,46 @@ const storeExperiences = [{
   storeName: "Flavor Fusion",
   description: "Sample authentic local dishes from multiple vendors in one delicious guided tour.",
   category: "Food",
-  imageUrl: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+  imageUrl: "/lovable-uploads/16b37187-da46-434b-befd-c29214c59e46.png",
   offer: "10% off your next visit to any participating restaurant",
   giveaway: "Recipe booklet of featured dishes",
   experience: "Our food tours are designed to be inclusive and accommodating to various dietary needs and preferences. We offer clear allergen information for all food samples and can provide alternative options for those with specific dietary restrictions."
 }];
 
-// Available categories
-const categories = ["All", "Workshops", "Art & Culture", "Food", "Outdoors"];
+// Available main categories
+const mainCategories = ["All", "Workshops", "Events", "Offers"];
+
+// Event subcategories
+const eventSubcategories = ["Art & Culture", "Outdoors", "Food"];
 
 const Index: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeMainCategory, setActiveMainCategory] = useState("All");
+  const [activeSubcategory, setActiveSubcategory] = useState("");
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
-  const [loaded, setLoaded] = useState(false);
   const [selectedCity, setSelectedCity] = useState('');
   const navigate = useNavigate();
-  const isMobile = useIsMobile();
 
-  // Filter stores based on active category
+  // Filter stores based on active category and subcategory
   useEffect(() => {
-    if (activeCategory === "All") {
-      setFilteredStores(storeExperiences);
-    } else {
-      setFilteredStores(storeExperiences.filter(store => store.category === activeCategory));
+    let filtered = [...storeExperiences];
+    
+    // Filter by main category
+    if (activeMainCategory === "Workshops") {
+      filtered = storeExperiences.filter(store => store.category === "Workshops");
+    } else if (activeMainCategory === "Events") {
+      if (activeSubcategory) {
+        filtered = storeExperiences.filter(store => store.category === activeSubcategory);
+      } else {
+        filtered = storeExperiences.filter(store => 
+          eventSubcategories.includes(store.category)
+        );
+      }
+    } else if (activeMainCategory === "Offers") {
+      filtered = storeExperiences.filter(store => store.offer);
     }
-  }, [activeCategory]);
-
-  // Animation on load
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
-
-  const handleRegisterStore = () => {
-    navigate('/register-store');
-  };
+    
+    setFilteredStores(filtered);
+  }, [activeMainCategory, activeSubcategory]);
 
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
@@ -95,11 +101,20 @@ const Index: React.FC = () => {
     // In a real app, you would filter content based on the selected city
   };
 
+  const handleCategoryClick = (category: string) => {
+    setActiveMainCategory(category);
+    setActiveSubcategory("");
+  };
+
+  const handleRegisterStore = () => {
+    navigate('/register-store');
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      {/* New Hero Section */}
+      {/* Hero Section */}
       <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/cd01bef3-c92f-4a70-bcc8-41417eea83c4.png')] bg-center bg-cover">
@@ -127,43 +142,51 @@ const Index: React.FC = () => {
             <CategoryCard 
               title="Workshops" 
               imageUrl="/lovable-uploads/5528c405-81a3-4c7f-b76e-09726fd8e8ad.png"
-              href="/search?category=Workshops"
+              href="#"
               bgColor="bg-[#1e3a8a]"
+              onClick={() => handleCategoryClick("Workshops")}
             />
             
             <CategoryCard 
               title="Events" 
               imageUrl="/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png"
-              href="/search?category=Events"
+              href="#"
               bgColor="bg-[#3c1f7b]"
+              onClick={() => handleCategoryClick("Events")}
+              hasSubcategories={true}
+              subcategories={eventSubcategories}
             />
             
             <CategoryCard 
               title="Offers" 
               imageUrl="/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png"
-              href="/search?category=Offers"
+              href="#"
               bgColor="bg-[#c2410c]"
+              onClick={() => handleCategoryClick("Offers")}
             />
           </div>
         </div>
       </section>
       
-      {/* Main Content - Store Cards */}
+      {/* Category Content Section */}
       <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 relative z-10">
-        <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 md:mb-8 font-montserrat">Experiences Near You</h2>
+        {/* Main category tabs */}
+        <CategoryTabs 
+          categories={mainCategories} 
+          activeCategory={activeMainCategory} 
+          onSelectCategory={handleCategoryClick}
+          className="mb-6"
+        />
         
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 md:gap-4 mb-8">
-          {categories.map(category => (
-            <CategoryButton 
-              key={category} 
-              label={category} 
-              isActive={activeCategory === category} 
-              onClick={() => setActiveCategory(category)} 
-              className="animate-scale-in" 
-            />
-          ))}
-        </div>
+        {/* Event subcategory tabs - only show when Events is selected */}
+        {activeMainCategory === "Events" && (
+          <CategoryTabs 
+            categories={eventSubcategories} 
+            activeCategory={activeSubcategory} 
+            onSelectCategory={setActiveSubcategory}
+            className="mb-8"
+          />
+        )}
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {filteredStores.map(store => (

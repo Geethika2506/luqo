@@ -9,6 +9,9 @@ interface CategoryCardProps {
   href: string;
   className?: string;
   bgColor?: string;
+  onClick?: () => void;
+  hasSubcategories?: boolean;
+  subcategories?: string[];
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({
@@ -16,12 +19,19 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   imageUrl,
   href,
   className,
-  bgColor = "bg-navyBlue"
+  bgColor = "bg-navyBlue",
+  onClick,
+  hasSubcategories = false,
+  subcategories = []
 }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(href);
+    if (onClick) {
+      onClick();
+    } else {
+      navigate(href);
+    }
   };
 
   return (
@@ -41,6 +51,19 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
             alt={title} 
             className="w-full h-full object-cover transition-transform hover:scale-105"
           />
+          
+          {hasSubcategories && subcategories.length > 0 && (
+            <div className="absolute bottom-0 left-0 w-full p-2 flex gap-2 flex-wrap bg-gradient-to-t from-black/80 to-transparent">
+              {subcategories.map((subcat) => (
+                <span 
+                  key={subcat}
+                  className="text-xs text-white bg-brand/90 px-2 py-1 rounded-full"
+                >
+                  {subcat}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
