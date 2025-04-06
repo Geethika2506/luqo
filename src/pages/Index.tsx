@@ -7,11 +7,16 @@ import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
+import CategoryButton from '@/components/CategoryButton';
+import StoreCard from '@/components/StoreCard';
 import { Utensils, Palmtree, Palette } from 'lucide-react';
+import { storeExperiences } from '@/data/storeExperiences';
 
 const Index: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
   const [selectedCity, setSelectedCity] = useState('');
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [filteredExperiences, setFilteredExperiences] = useState(storeExperiences);
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
@@ -28,6 +33,17 @@ const Index: React.FC = () => {
     setSelectedCity(city);
     console.log('Selected city:', city);
     // In a real app, you would filter content based on the selected city
+  };
+
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(category);
+    
+    if (category === 'All') {
+      setFilteredExperiences(storeExperiences);
+    } else {
+      const filtered = storeExperiences.filter(exp => exp.category === category);
+      setFilteredExperiences(filtered);
+    }
   };
 
   return (
@@ -96,6 +112,57 @@ const Index: React.FC = () => {
               href="/search?category=Offers"
               bgColor="bg-[#c2410c]"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Categories Section */}
+      <section className="py-12 px-4 md:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-8 text-center">
+            Explore Experiences
+          </h2>
+          
+          {/* Category Tabs */}
+          <div className="flex justify-center gap-2 md:gap-4 mb-10 overflow-x-auto pb-2">
+            <CategoryButton 
+              label="All" 
+              isActive={activeCategory === 'All'} 
+              onClick={() => handleCategoryClick('All')}
+            />
+            <CategoryButton 
+              label="Workshops" 
+              isActive={activeCategory === 'Workshops'} 
+              onClick={() => handleCategoryClick('Workshops')}
+            />
+            <CategoryButton 
+              label="Events" 
+              isActive={activeCategory === 'Events'} 
+              onClick={() => handleCategoryClick('Events')}
+            />
+            <CategoryButton 
+              label="Offers" 
+              isActive={activeCategory === 'Offers'} 
+              onClick={() => handleCategoryClick('Offers')}
+            />
+          </div>
+          
+          {/* Experience Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {filteredExperiences.map((experience, index) => (
+              <StoreCard
+                key={experience.id}
+                id={experience.id}
+                title={experience.title}
+                description={experience.description}
+                storeName={experience.storeName}
+                category={experience.category}
+                imageUrl={experience.imageUrl}
+                offer={experience.offer}
+                giveaway={experience.giveaway}
+                className={`transition-all duration-500 delay-${index * 100}`}
+              />
+            ))}
           </div>
         </div>
       </section>
