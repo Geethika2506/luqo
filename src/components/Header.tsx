@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
@@ -7,14 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { User, LogOut } from 'lucide-react';
 import Logo from '@/components/Logo';
+
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
-  const [session, setSession] = useState<any>(null);
-  const [profile, setProfile] = useState<any>(null);
-  useEffect(() => {
+  const { toast } = useToast();
+  const [session, setSession] = React.useState<any>(null);
+  const [profile, setProfile] = React.useState<any>(null);
+
+  React.useEffect(() => {
     const getSession = async () => {
       const {
         data
@@ -51,14 +51,11 @@ const Header: React.FC = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
-  const handleSearch = () => {
-    navigate('/search');
-    console.log('Search button clicked');
-  };
+
   const handleSignIn = () => {
     navigate('/sign-in');
-    console.log('Sign In button clicked');
   };
+
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -71,10 +68,11 @@ const Header: React.FC = () => {
       console.error('Error signing out:', error);
     }
   };
+
   const handleRegisterStore = () => {
     navigate('/register-store');
-    console.log('Register Store button clicked');
   };
+
   const getInitials = () => {
     if (profile?.full_name) {
       return profile.full_name.substring(0, 2).toUpperCase();
@@ -84,37 +82,36 @@ const Header: React.FC = () => {
     }
     return 'U';
   };
+
   const getDisplayName = () => {
     if (profile?.full_name) {
       return profile.full_name;
     }
     if (session?.user?.email) {
-      // Extract username from email (part before @)
       const username = session.user.email.split('@')[0];
       return username;
     }
     return 'User';
   };
-  return <header className="w-full bg-[#FF5722] flex justify-between items-center py-[6px] mx-0 my-0 px-0">
+
+  return (
+    <header className="w-full bg-transparent absolute top-0 left-0 z-50 flex justify-between items-center px-6 py-4">
       <div className="flex items-center">
-        <a href="/" aria-label="LUQO Home" className="mr-6 px-0 mx-0">
-          <Logo size="sm" />
+        <a href="/" aria-label="LUQO Home" className="mr-6">
+          <Logo size="sm" variant="white" />
         </a>
       </div>
       
-      <div className="flex items-center space-x-4 px-0 my-[8px] py-0 mx-0">
-        <a href="/about" aria-label="About us" className="text-white hover:underline focus:underline text-sm font-medium transition-all font-montserrat mx-0">
-          About
+      <div className="flex items-center space-x-8">
+        <a href="/how-it-works" aria-label="How It Works" className="text-white hover:text-opacity-80 font-medium transition-all font-montserrat mx-0 text-sm md:text-base">
+          How It Works
         </a>
-        <a href="/contact" className="text-white hover:underline focus:underline text-sm font-medium transition-all font-montserrat" aria-label="Contact us">
-          Contact
+        <a href="/for-businesses" className="text-white hover:text-opacity-80 font-medium transition-all font-montserrat text-sm md:text-base" aria-label="For Businesses">
+          For Businesses
         </a>
         
-        <Button size="sm" onClick={handleSearch} className="bg-white text-[#FF5722] hover:bg-opacity-90 focus:bg-opacity-90 transition-all font-montserrat" aria-label="Search stores">
-          Search
-        </Button>
-        
-        {session ? <DropdownMenu>
+        {session ? (
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <div className="flex items-center cursor-pointer ml-2">
                 <Avatar className="h-8 w-8 mr-2 border-2 border-white">
@@ -138,10 +135,19 @@ const Header: React.FC = () => {
                 <span>Sign Out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
-          </DropdownMenu> : <Button variant="outline" size="sm" onClick={handleSignIn} className="bg-transparent border-white text-white hover:bg-white hover:text-[#FF5722] focus:bg-white focus:text-[#FF5722] transition-all font-montserrat" aria-label="Sign in to your account">
-            Sign In
-          </Button>}
+          </DropdownMenu>
+        ) : (
+          <Button 
+            onClick={handleSignIn} 
+            className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-full" 
+            aria-label="Sign Up"
+          >
+            Sign Up
+          </Button>
+        )}
       </div>
-    </header>;
+    </header>
+  );
 };
+
 export default Header;
