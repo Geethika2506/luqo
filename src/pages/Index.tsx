@@ -7,7 +7,7 @@ import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
-import { Utensils, Tree, Palette } from 'lucide-react';
+import { Utensils, Palmtree, Palette } from 'lucide-react';
 
 const Index: React.FC = () => {
   const [loaded, setLoaded] = useState(false);
@@ -80,7 +80,7 @@ const Index: React.FC = () => {
                 {
                   label: "Outdoors",
                   href: "/search?category=Events&subcategory=Outdoors",
-                  icon: <Tree className="h-3 w-3" />
+                  icon: <Palmtree className="h-3 w-3" />
                 },
                 {
                   label: "Art & Culture",
