@@ -98,35 +98,32 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="w-full bg-transparent absolute top-0 left-0 z-50 px-5 py-4">
-      <div className="flex justify-between items-center">
+    <header className="w-full bg-zinc-900 absolute top-0 left-0 z-50 px-4 py-3 border-b border-zinc-800">
+      <div className="flex justify-between items-center max-w-6xl mx-auto">
         <div className="flex items-center">
           <a href="/" aria-label="LUQO Home">
             <Logo size="sm" variant="white" />
           </a>
         </div>
         
-        <div className={cn("flex items-center", isMobile ? "justify-between w-full ml-5" : "space-x-8")}>
-          <a href="/how-it-works" aria-label="How It Works" className="text-white text-sm font-medium transition-all font-montserrat">
+        <div className={cn("flex items-center", isMobile ? "space-x-4" : "space-x-8")}>
+          <a href="/how-it-works" aria-label="How It Works" className="text-white/95 text-sm font-medium transition-all font-montserrat hover:text-white">
             How It Works
           </a>
-          <a href="/for-businesses" className="text-white text-sm font-medium transition-all font-montserrat" aria-label="For Businesses">
+          <a href="/for-businesses" className="text-white/95 text-sm font-medium transition-all font-montserrat hover:text-white" aria-label="For Businesses">
             For Businesses
           </a>
           
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <div className="flex items-center cursor-pointer ml-2">
-                  <Avatar className="h-8 w-8 mr-2 border-2 border-white">
+                <div className="flex items-center cursor-pointer">
+                  <Avatar className="h-8 w-8 border-2 border-white/20">
                     <AvatarImage src={profile?.avatar_url} alt="Profile" />
-                    <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
+                    <AvatarFallback className="bg-white text-zinc-900 text-xs font-bold">
                       {getInitials()}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="text-white text-sm font-montserrat hidden md:inline">
-                    {getDisplayName()}
-                  </span>
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
@@ -143,7 +140,7 @@ const Header: React.FC = () => {
           ) : (
             <Button 
               onClick={handleSignIn} 
-              className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-full text-sm" 
+              className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-md text-sm px-4 py-1 h-auto" 
               aria-label="Sign Up"
             >
               Sign Up

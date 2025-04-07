@@ -37,11 +37,15 @@ const Logo: React.FC<LogoProps> = ({
         {["L", "U", "Q", "O"].map((letter, index) => (
           <span 
             key={index} 
-            className="inline-block bg-white text-center px-[3px] py-[1px]"
+            className={cn(
+              "inline-block bg-white text-center",
+              size === "sm" ? "px-[2px] py-[1px]" : "px-[3px] py-[1px]"
+            )}
             style={{
-              clipPath: index === 0 ? "polygon(0 0, 100% 0, 100% 100%, 20% 100%, 0 80%)" :
-                      index === 3 ? "polygon(0 0, 80% 0, 100% 20%, 100% 100%, 0 100%)" :
-                      "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+              fontFamily: "'Montserrat', sans-serif",
+              fontWeight: 800,
+              letterSpacing: "-0.05em"
             }}
           >
             {letter}
