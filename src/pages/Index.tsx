@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
@@ -100,7 +101,7 @@ const Index: React.FC = () => {
       <Header />
       
       {/* New Hero Section */}
-      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
+      <section className="relative pt-16 pb-12 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/cd01bef3-c92f-4a70-bcc8-41417eea83c4.png')] bg-center bg-cover">
           <div className="w-full h-full bg-gradient-to-b from-black/95 via-black/90 to-black/85"></div>
@@ -108,41 +109,47 @@ const Index: React.FC = () => {
         
         {/* Content Container */}
         <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 font-montserrat">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 font-montserrat">
             Discover Local Experiences
           </h1>
           
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 md:mb-10 font-light">
+          <p className="text-base md:text-xl text-white/90 max-w-2xl mx-auto mb-6 md:mb-10 font-light px-2">
             Connect with nearby small businesses offering unique activities and special offers.
           </p>
           
           {/* City Selector */}
           <CitySelector 
             onChange={handleCityChange} 
-            className="mb-12 md:mb-16"
+            className="mb-8 md:mb-16 w-full max-w-[85%] md:max-w-md"
           />
           
-          {/* Category Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-5xl mx-auto">
+          {/* Category Cards - Mobile optimized grid */}
+          <div className={cn(
+            "grid gap-4 md:gap-6 w-full max-w-5xl mx-auto",
+            isMobile ? "grid-cols-2 px-2" : "grid-cols-1 md:grid-cols-3"
+          )}>
             <CategoryCard 
               title="Workshops" 
               imageUrl="/lovable-uploads/5528c405-81a3-4c7f-b76e-09726fd8e8ad.png"
               href="/search?category=Workshops"
-              bgColor="bg-[#1e3a8a]"
+              bgColor={isMobile ? "bg-[#1039a8]" : "bg-[#1e3a8a]"}
+              className={isMobile ? "col-span-1" : ""}
             />
             
             <CategoryCard 
               title="Events" 
               imageUrl="/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png"
               href="/search?category=Events"
-              bgColor="bg-[#3c1f7b]"
+              bgColor={isMobile ? "bg-[#321d68]" : "bg-[#3c1f7b]"}
+              className={isMobile ? "col-span-1" : ""}
             />
             
             <CategoryCard 
               title="Offers" 
               imageUrl="/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png"
               href="/search?category=Offers"
-              bgColor="bg-[#c2410c]"
+              bgColor={isMobile ? "bg-brand" : "bg-[#c2410c]"}
+              className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""}
             />
           </div>
         </div>
@@ -153,7 +160,7 @@ const Index: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 md:mb-8 font-montserrat">Experiences Near You</h2>
         
         {/* Category Filters */}
-        <div className="flex flex-wrap gap-2 md:gap-4 mb-8">
+        <div className="flex flex-wrap gap-2 md:gap-4 mb-8 justify-center md:justify-start">
           {categories.map(category => (
             <CategoryButton 
               key={category} 
