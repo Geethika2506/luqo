@@ -9,14 +9,14 @@ import { User, LogOut } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
-
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [session, setSession] = React.useState<any>(null);
   const [profile, setProfile] = React.useState<any>(null);
   const isMobile = useIsMobile();
-
   React.useEffect(() => {
     const getSession = async () => {
       const {
@@ -54,11 +54,9 @@ const Header: React.FC = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
-
   const handleSignIn = () => {
     navigate('/sign-in');
   };
-
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -71,11 +69,9 @@ const Header: React.FC = () => {
       console.error('Error signing out:', error);
     }
   };
-
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
-
   const getInitials = () => {
     if (profile?.full_name) {
       return profile.full_name.substring(0, 2).toUpperCase();
@@ -85,7 +81,6 @@ const Header: React.FC = () => {
     }
     return 'U';
   };
-
   const getDisplayName = () => {
     if (profile?.full_name) {
       return profile.full_name;
@@ -96,9 +91,7 @@ const Header: React.FC = () => {
     }
     return 'User';
   };
-
-  return (
-    <header className="w-full bg-zinc-900 absolute top-0 left-0 z-50 px-4 py-3 border-b border-zinc-800">
+  return <header className="w-full bg-zinc-900 absolute top-0 left-0 z-50 px-4 border-b border-zinc-800 py-0">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <div className="flex items-center">
           <a href="/" aria-label="LUQO Home">
@@ -114,8 +107,7 @@ const Header: React.FC = () => {
             For Businesses
           </a>
           
-          {session ? (
-            <DropdownMenu>
+          {session ? <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="flex items-center cursor-pointer">
                   <Avatar className="h-8 w-8 border-2 border-white/20">
@@ -136,20 +128,11 @@ const Header: React.FC = () => {
                   <span>Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button 
-              onClick={handleSignIn} 
-              className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-md text-sm px-4 py-1 h-auto" 
-              aria-label="Sign Up"
-            >
+            </DropdownMenu> : <Button onClick={handleSignIn} className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-md text-sm px-4 py-1 h-auto" aria-label="Sign Up">
               Sign Up
-            </Button>
-          )}
+            </Button>}
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default Header;

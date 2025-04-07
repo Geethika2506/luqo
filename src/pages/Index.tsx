@@ -9,7 +9,6 @@ import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
-
 const storeExperiences = [{
   id: "1",
   title: "Customizable swimwear charms workshop",
@@ -59,9 +58,7 @@ const storeExperiences = [{
   giveaway: "Recipe booklet of featured dishes",
   experience: "Our food tours are designed to be inclusive and accommodating to various dietary needs and preferences. We offer clear allergen information for all food samples and can provide alternative options for those with specific dietary restrictions."
 }];
-
 const categories = ["All", "Workshops", "Art & Culture", "Food", "Outdoors"];
-
 const Index: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
@@ -69,7 +66,6 @@ const Index: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState('');
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-
   useEffect(() => {
     if (activeCategory === "All") {
       setFilteredStores(storeExperiences);
@@ -77,26 +73,20 @@ const Index: React.FC = () => {
       setFilteredStores(storeExperiences.filter(store => store.category === activeCategory));
     }
   }, [activeCategory]);
-
   useEffect(() => {
     setLoaded(true);
   }, []);
-
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
-
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     console.log('Selected city:', city);
   };
-
   const workshopImage = "/lovable-uploads/9bb13cf8-ca44-40a5-acdf-8a23a548ada2.png";
   const eventsImage = "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png";
   const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       
       <section className="relative pt-16 pb-12 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
@@ -104,54 +94,27 @@ const Index: React.FC = () => {
           <div className="w-full h-full bg-gradient-to-b from-black/95 via-black/90 to-black/85"></div>
         </div>
         
-        <div 
-          className="absolute inset-0 z-0 opacity-10 mix-blend-overlay"
-          style={{
-            backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=')"
-          }}
-        ></div>
+        <div className="absolute inset-0 z-0 opacity-10 mix-blend-overlay" style={{
+        backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=')"
+      }}></div>
         
         <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 font-montserrat">
             Discover Local Experiences
           </h1>
           
-          <p className="text-base md:text-xl text-white/90 max-w-2xl mx-auto mb-6 md:mb-10 font-light px-2">
+          <p className="text-base md:text-xl text-white/90 max-w-2xl mx-auto mb-6 md:mb-10 font-light px-2 py-px">
             Connect with nearby small businesses offering unique activities and special offers.
           </p>
           
-          <CitySelector 
-            onChange={handleCityChange} 
-            className="mb-8 md:mb-16 w-full max-w-[85%] md:max-w-md"
-          />
+          <CitySelector onChange={handleCityChange} className="mb-8 md:mb-16 w-full max-w-[85%] md:max-w-md" />
           
-          <div className={cn(
-            "grid gap-4 md:gap-6 w-full max-w-5xl mx-auto",
-            isMobile ? "grid-cols-2 px-2" : "grid-cols-1 md:grid-cols-3"
-          )}>
-            <CategoryCard 
-              title="Workshops" 
-              imageUrl={workshopImage}
-              href="/search?category=Workshops"
-              bgColor={isMobile ? "bg-[#1039a8]" : "bg-[#1e3a8a]"}
-              className={isMobile ? "col-span-1" : ""}
-            />
+          <div className={cn("grid gap-4 md:gap-6 w-full max-w-5xl mx-auto", isMobile ? "grid-cols-2 px-2" : "grid-cols-1 md:grid-cols-3")}>
+            <CategoryCard title="Workshops" imageUrl={workshopImage} href="/search?category=Workshops" bgColor={isMobile ? "bg-[#1039a8]" : "bg-[#1e3a8a]"} className={isMobile ? "col-span-1" : ""} />
             
-            <CategoryCard 
-              title="Events" 
-              imageUrl={eventsImage}
-              href="/search?category=Events"
-              bgColor={isMobile ? "bg-[#321d68]" : "bg-[#3c1f7b]"}
-              className={isMobile ? "col-span-1" : ""}
-            />
+            <CategoryCard title="Events" imageUrl={eventsImage} href="/search?category=Events" bgColor={isMobile ? "bg-[#321d68]" : "bg-[#3c1f7b]"} className={isMobile ? "col-span-1" : ""} />
             
-            <CategoryCard 
-              title="Offers" 
-              imageUrl={offersImage}
-              href="/search?category=Offers"
-              bgColor={isMobile ? "bg-brand" : "bg-[#c2410c]"}
-              className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""}
-            />
+            <CategoryCard title="Offers" imageUrl={offersImage} href="/search?category=Offers" bgColor={isMobile ? "bg-brand" : "bg-[#c2410c]"} className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""} />
           </div>
         </div>
       </section>
@@ -160,43 +123,19 @@ const Index: React.FC = () => {
         <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 md:mb-8 font-montserrat">Experiences Near You</h2>
         
         <div className="flex flex-wrap gap-2 md:gap-4 mb-8 justify-center md:justify-start">
-          {categories.map(category => (
-            <CategoryButton 
-              key={category} 
-              label={category} 
-              isActive={activeCategory === category} 
-              onClick={() => setActiveCategory(category)} 
-              className="animate-scale-in" 
-            />
-          ))}
+          {categories.map(category => <CategoryButton key={category} label={category} isActive={activeCategory === category} onClick={() => setActiveCategory(category)} className="animate-scale-in" />)}
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {filteredStores.map(store => (
-            <StoreCard 
-              key={store.id} 
-              id={store.id} 
-              title={store.title} 
-              storeName={store.storeName} 
-              description={store.description} 
-              category={store.category} 
-              imageUrl={store.imageUrl} 
-              offer={store.offer} 
-              giveaway={store.giveaway} 
-              experience={store.experience} 
-              className="animate-slide-in" 
-            />
-          ))}
+          {filteredStores.map(store => <StoreCard key={store.id} id={store.id} title={store.title} storeName={store.storeName} description={store.description} category={store.category} imageUrl={store.imageUrl} offer={store.offer} giveaway={store.giveaway} experience={store.experience} className="animate-slide-in" />)}
         </div>
         
-        {filteredStores.length === 0 && (
-          <div className="text-center py-12">
+        {filteredStores.length === 0 && <div className="text-center py-12">
             <h3 className="text-xl font-medium text-textPrimary mb-3">No experiences found</h3>
             <p className="text-textSecondary">
               No experiences found in this category. Please try another category.
             </p>
-          </div>
-        )}
+          </div>}
       </section>
       
       <section className="bg-gray-50 py-12 md:py-20 px-4 md:px-6">
@@ -219,8 +158,6 @@ const Index: React.FC = () => {
       </section>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
