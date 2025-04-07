@@ -91,7 +91,7 @@ const Index: React.FC = () => {
     console.log('Selected city:', city);
   };
 
-  const workshopImage = "/lovable-uploads/98378473-9119-4901-954e-b64f13d0211c.png";
+  const workshopImage = "/lovable-uploads/341c8d75-7da0-4322-84f4-496a94cbb3bf.png";
   const eventsImage = "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png";
   const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
 
@@ -123,7 +123,7 @@ const Index: React.FC = () => {
             
             <CategoryCard title="Events" imageUrl={eventsImage} href="/search?category=Events" bgColor={isMobile ? "bg-[#321d68]" : "bg-[#3c1f7b]"} className={isMobile ? "col-span-1" : ""} />
             
-            <CategoryCard title="Offers" imageUrl={offersImage} href="/search?category=Offers" bgColor={isMobile ? "bg-brand" : "bg-[#c2410c]"} className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""} />
+            <CategoryCard title="Offers" imageUrl={offersImage} href="/search?category=Offers" bgColor={isMobile ? "bg-[#1039a8]" : "bg-[#c2410c]"} className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""} />
           </div>
         </div>
       </section>

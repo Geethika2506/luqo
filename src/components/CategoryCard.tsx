@@ -26,6 +26,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     navigate(href);
   };
 
+  // Special styling for Workshops card to match the design
+  const isWorkshop = title === "Workshops";
+  
   return (
     <div 
       className={cn(
@@ -39,7 +42,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     >
       <div className={cn(
         "flex h-full", 
-        isMobile ? "flex-row items-center p-0" : "flex-col p-4"
+        isMobile ? "flex-row items-center p-0" : 
+          isWorkshop ? "flex-col p-0" : "flex-col p-4"
       )}>
         {isMobile ? (
           <>
@@ -57,6 +61,20 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
               <div className="absolute inset-0 flex items-center justify-center">
                 <h3 className="text-xl font-semibold text-white text-center drop-shadow-md">{title}</h3>
               </div>
+            </div>
+          </>
+        ) : isWorkshop ? (
+          <>
+            <h3 className="text-2xl md:text-3xl font-bold text-white p-4 pb-2">{title}</h3>
+            <div className="w-full overflow-hidden rounded-lg mx-auto px-3 pb-3">
+              <img 
+                src="/lovable-uploads/341c8d75-7da0-4322-84f4-496a94cbb3bf.png" 
+                alt={title} 
+                className="w-full rounded-lg object-cover shadow-md"
+                style={{
+                  height: "180px",
+                }}
+              />
             </div>
           </>
         ) : (
