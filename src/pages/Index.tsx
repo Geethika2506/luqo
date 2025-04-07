@@ -9,6 +9,7 @@ import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
+
 const storeExperiences = [{
   id: "1",
   title: "Customizable swimwear charms workshop",
@@ -58,7 +59,9 @@ const storeExperiences = [{
   giveaway: "Recipe booklet of featured dishes",
   experience: "Our food tours are designed to be inclusive and accommodating to various dietary needs and preferences. We offer clear allergen information for all food samples and can provide alternative options for those with specific dietary restrictions."
 }];
+
 const categories = ["All", "Workshops", "Art & Culture", "Food", "Outdoors"];
+
 const Index: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [filteredStores, setFilteredStores] = useState(storeExperiences);
@@ -66,6 +69,7 @@ const Index: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState('');
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+
   useEffect(() => {
     if (activeCategory === "All") {
       setFilteredStores(storeExperiences);
@@ -73,19 +77,24 @@ const Index: React.FC = () => {
       setFilteredStores(storeExperiences.filter(store => store.category === activeCategory));
     }
   }, [activeCategory]);
+
   useEffect(() => {
     setLoaded(true);
   }, []);
+
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
+
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     console.log('Selected city:', city);
   };
-  const workshopImage = "/lovable-uploads/9bb13cf8-ca44-40a5-acdf-8a23a548ada2.png";
+
+  const workshopImage = "/lovable-uploads/98378473-9119-4901-954e-b64f13d0211c.png";
   const eventsImage = "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png";
   const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
+
   return <div className="min-h-screen flex flex-col">
       <Header />
       
@@ -160,4 +169,5 @@ const Index: React.FC = () => {
       <Footer />
     </div>;
 };
+
 export default Index;
