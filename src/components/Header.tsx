@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -7,12 +8,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { User, LogOut } from 'lucide-react';
 import Logo from '@/components/Logo';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [session, setSession] = React.useState<any>(null);
   const [profile, setProfile] = React.useState<any>(null);
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     const getSession = async () => {
@@ -95,56 +98,58 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="w-full bg-transparent absolute top-0 left-0 z-50 flex justify-between items-center px-6 py-4">
-      <div className="flex items-center">
-        <a href="/" aria-label="LUQO Home" className="mr-6">
-          <Logo size="sm" variant="white" />
-        </a>
-      </div>
-      
-      <div className="flex items-center space-x-8">
-        <a href="/how-it-works" aria-label="How It Works" className="text-white hover:text-opacity-80 font-medium transition-all font-montserrat mx-0 text-sm md:text-base">
-          How It Works
-        </a>
-        <a href="/for-businesses" className="text-white hover:text-opacity-80 font-medium transition-all font-montserrat text-sm md:text-base" aria-label="For Businesses">
-          For Businesses
-        </a>
+    <header className="w-full bg-transparent absolute top-0 left-0 z-50 px-5 py-4">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
+          <a href="/" aria-label="LUQO Home">
+            <Logo size="sm" variant="white" />
+          </a>
+        </div>
         
-        {session ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="flex items-center cursor-pointer ml-2">
-                <Avatar className="h-8 w-8 mr-2 border-2 border-white">
-                  <AvatarImage src={profile?.avatar_url} alt="Profile" />
-                  <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
-                    {getInitials()}
-                  </AvatarFallback>
-                </Avatar>
-                <span className="text-white text-sm font-montserrat hidden md:inline">
-                  {getDisplayName()}
-                </span>
-              </div>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem onClick={handleRegisterStore} className="cursor-pointer">
-                <User className="mr-2 h-4 w-4" />
-                <span>Register Store</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Sign Out</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <Button 
-            onClick={handleSignIn} 
-            className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-full" 
-            aria-label="Sign Up"
-          >
-            Sign Up
-          </Button>
-        )}
+        <div className={cn("flex items-center", isMobile ? "justify-between w-full ml-5" : "space-x-8")}>
+          <a href="/how-it-works" aria-label="How It Works" className="text-white text-sm font-medium transition-all font-montserrat">
+            How It Works
+          </a>
+          <a href="/for-businesses" className="text-white text-sm font-medium transition-all font-montserrat" aria-label="For Businesses">
+            For Businesses
+          </a>
+          
+          {session ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center cursor-pointer ml-2">
+                  <Avatar className="h-8 w-8 mr-2 border-2 border-white">
+                    <AvatarImage src={profile?.avatar_url} alt="Profile" />
+                    <AvatarFallback className="bg-white text-[#FF5722] text-xs font-bold">
+                      {getInitials()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="text-white text-sm font-montserrat hidden md:inline">
+                    {getDisplayName()}
+                  </span>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={handleRegisterStore} className="cursor-pointer">
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Register Store</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button 
+              onClick={handleSignIn} 
+              className="bg-brand text-white hover:bg-brand/90 focus:bg-brand/90 transition-all font-montserrat rounded-full text-sm" 
+              aria-label="Sign Up"
+            >
+              Sign Up
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );

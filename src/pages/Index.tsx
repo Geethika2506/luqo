@@ -91,14 +91,25 @@ const Index: React.FC = () => {
     console.log('Selected city:', city);
   };
 
+  const workshopImage = "/lovable-uploads/9bb13cf8-ca44-40a5-acdf-8a23a548ada2.png";
+  const eventsImage = "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png";
+  const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
       <section className="relative pt-16 pb-12 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
-        <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/cd01bef3-c92f-4a70-bcc8-41417eea83c4.png')] bg-center bg-cover">
+        <div className="absolute inset-0 z-0 opacity-40 bg-[url('/lovable-uploads/cd01bef3-c92f-4a70-bcc8-41417eea83c4.png')] bg-center bg-cover">
           <div className="w-full h-full bg-gradient-to-b from-black/95 via-black/90 to-black/85"></div>
         </div>
+        
+        <div 
+          className="absolute inset-0 z-0 opacity-10 mix-blend-overlay"
+          style={{
+            backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc1IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1IiBkPSJNMCAwaDMwMHYzMDBIMHoiLz48L3N2Zz4=')"
+          }}
+        ></div>
         
         <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 font-montserrat">
@@ -120,7 +131,7 @@ const Index: React.FC = () => {
           )}>
             <CategoryCard 
               title="Workshops" 
-              imageUrl="/lovable-uploads/5528c405-81a3-4c7f-b76e-09726fd8e8ad.png"
+              imageUrl={workshopImage}
               href="/search?category=Workshops"
               bgColor={isMobile ? "bg-[#1039a8]" : "bg-[#1e3a8a]"}
               className={isMobile ? "col-span-1" : ""}
@@ -128,7 +139,7 @@ const Index: React.FC = () => {
             
             <CategoryCard 
               title="Events" 
-              imageUrl="/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png"
+              imageUrl={eventsImage}
               href="/search?category=Events"
               bgColor={isMobile ? "bg-[#321d68]" : "bg-[#3c1f7b]"}
               className={isMobile ? "col-span-1" : ""}
@@ -136,7 +147,7 @@ const Index: React.FC = () => {
             
             <CategoryCard 
               title="Offers" 
-              imageUrl="/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png"
+              imageUrl={offersImage}
               href="/search?category=Offers"
               bgColor={isMobile ? "bg-brand" : "bg-[#c2410c]"}
               className={isMobile ? "col-span-2 mx-auto w-full max-w-[50%]" : ""}

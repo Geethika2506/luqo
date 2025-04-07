@@ -25,7 +25,7 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <h1 
       className={cn(
-        "font-bold tracking-tighter animate-logo-glow font-montserrat", 
+        "font-bold tracking-tight font-montserrat", 
         sizeClasses[size],
         variant === "default" ? "text-white" : "text-white", 
         isMobile ? "text-center w-full" : "", 
@@ -33,10 +33,21 @@ const Logo: React.FC<LogoProps> = ({
       )} 
       aria-label="LUQO"
     >
-      <span className="inline-block text-center mx-[2px] my-0 px-0">LUQO</span>
-      <span className="inline-block mx-[7px]"></span>
-      <span className="inline-block mx-[7px]"></span>
-      <span className="inline-block mx-0"></span>
+      <div className="flex items-center justify-center space-x-1">
+        {["L", "U", "Q", "O"].map((letter, index) => (
+          <span 
+            key={index} 
+            className="inline-block bg-white text-center px-[3px] py-[1px]"
+            style={{
+              clipPath: index === 0 ? "polygon(0 0, 100% 0, 100% 100%, 20% 100%, 0 80%)" :
+                      index === 3 ? "polygon(0 0, 80% 0, 100% 20%, 100% 100%, 0 100%)" :
+                      "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+            }}
+          >
+            {letter}
+          </span>
+        ))}
+      </div>
     </h1>
   );
 };

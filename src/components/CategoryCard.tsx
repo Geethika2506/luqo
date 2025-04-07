@@ -29,28 +29,34 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   return (
     <div 
       className={cn(
-        "rounded-xl overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1",
+        "rounded-xl overflow-hidden cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1 shadow-md",
         bgColor,
         isMobile ? "h-[120px]" : "",
         className
       )}
       onClick={handleClick}
+      style={{boxShadow: "0 4px 12px rgba(0,0,0,0.15)"}}
     >
       <div className={cn(
         "flex h-full", 
-        isMobile ? "flex-row items-center p-2" : "flex-col p-4"
+        isMobile ? "flex-row items-center p-0" : "flex-col p-4"
       )}>
         {isMobile ? (
           <>
-            <div className="relative overflow-hidden rounded-lg w-1/3 h-full mr-3">
+            <div className="relative overflow-hidden h-full flex-1">
               <img 
                 src={imageUrl} 
                 alt={title} 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
+                style={{
+                  objectPosition: title === "Workshops" ? "center 30%" : 
+                               title === "Events" ? "center 40%" : "center 60%"
+                }}
               />
-            </div>
-            <div className="flex-1 flex items-center justify-center">
-              <h3 className="text-lg font-semibold text-white text-center">{title}</h3>
+              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <h3 className="text-xl font-semibold text-white text-center drop-shadow-md">{title}</h3>
+              </div>
             </div>
           </>
         ) : (
