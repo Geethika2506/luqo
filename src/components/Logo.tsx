@@ -18,7 +18,7 @@ const Logo: React.FC<LogoProps> = ({
     lg: "text-6xl"
   };
   return <h1 className={cn("font-bold tracking-tight font-montserrat", sizeClasses[size], variant === "default" ? "text-white" : "text-white", isMobile ? "text-center w-full" : "", className)} aria-label="LUQO">
-      <div className="flex items-center justify-center space-x-1 px-0">
+      <div className="flex items-center justify-center space-x-1 px-0 my-[16px] mx-0">
         {["L", "U", "Q", "O"].map((letter, index) => <span key={index} style={{
         clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
         fontFamily: "'Montserrat', sans-serif",
