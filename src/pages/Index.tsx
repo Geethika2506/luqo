@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { cn } from '@/lib/utils';
 import Header from '@/components/Header';
 import CategoryButton from '@/components/CategoryButton';
 import StoreCard from '@/components/StoreCard';
@@ -10,7 +10,6 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import CitySelector from '@/components/CitySelector';
 import CategoryCard from '@/components/CategoryCard';
 
-// Enhanced experience data with real images, offers, giveaways, and locations
 const storeExperiences = [{
   id: "1",
   title: "Customizable swimwear charms workshop",
@@ -61,7 +60,6 @@ const storeExperiences = [{
   experience: "Our food tours are designed to be inclusive and accommodating to various dietary needs and preferences. We offer clear allergen information for all food samples and can provide alternative options for those with specific dietary restrictions."
 }];
 
-// Available categories
 const categories = ["All", "Workshops", "Art & Culture", "Food", "Outdoors"];
 
 const Index: React.FC = () => {
@@ -72,7 +70,6 @@ const Index: React.FC = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
 
-  // Filter stores based on active category
   useEffect(() => {
     if (activeCategory === "All") {
       setFilteredStores(storeExperiences);
@@ -81,7 +78,6 @@ const Index: React.FC = () => {
     }
   }, [activeCategory]);
 
-  // Animation on load
   useEffect(() => {
     setLoaded(true);
   }, []);
@@ -93,21 +89,17 @@ const Index: React.FC = () => {
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     console.log('Selected city:', city);
-    // In a real app, you would filter content based on the selected city
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      {/* New Hero Section */}
       <section className="relative pt-16 pb-12 md:pt-32 md:pb-24 px-4 md:px-6 lg:px-8 bg-black">
-        {/* Background Pattern */}
         <div className="absolute inset-0 z-0 opacity-30 bg-[url('/lovable-uploads/cd01bef3-c92f-4a70-bcc8-41417eea83c4.png')] bg-center bg-cover">
           <div className="w-full h-full bg-gradient-to-b from-black/95 via-black/90 to-black/85"></div>
         </div>
         
-        {/* Content Container */}
         <div className="relative z-10 flex flex-col items-center justify-center max-w-6xl mx-auto text-center">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 font-montserrat">
             Discover Local Experiences
@@ -117,13 +109,11 @@ const Index: React.FC = () => {
             Connect with nearby small businesses offering unique activities and special offers.
           </p>
           
-          {/* City Selector */}
           <CitySelector 
             onChange={handleCityChange} 
             className="mb-8 md:mb-16 w-full max-w-[85%] md:max-w-md"
           />
           
-          {/* Category Cards - Mobile optimized grid */}
           <div className={cn(
             "grid gap-4 md:gap-6 w-full max-w-5xl mx-auto",
             isMobile ? "grid-cols-2 px-2" : "grid-cols-1 md:grid-cols-3"
@@ -155,11 +145,9 @@ const Index: React.FC = () => {
         </div>
       </section>
       
-      {/* Main Content - Store Cards */}
       <section className="container mx-auto px-4 md:px-6 py-12 md:py-16 relative z-10">
         <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-6 md:mb-8 font-montserrat">Experiences Near You</h2>
         
-        {/* Category Filters */}
         <div className="flex flex-wrap gap-2 md:gap-4 mb-8 justify-center md:justify-start">
           {categories.map(category => (
             <CategoryButton 
@@ -200,7 +188,6 @@ const Index: React.FC = () => {
         )}
       </section>
       
-      {/* Join Luqo Section */}
       <section className="bg-gray-50 py-12 md:py-20 px-4 md:px-6">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-2xl md:text-3xl font-semibold text-textPrimary mb-4 md:mb-6 font-montserrat">
