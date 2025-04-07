@@ -100,7 +100,7 @@ const Header: React.FC = () => {
         </div>
         
         <div className={cn("flex items-center", isMobile ? "space-x-4" : "space-x-8")}>
-          <a href="/how-it-works" aria-label="How It Works" className="text-white/95 text-sm font-medium transition-all font-montserrat hover:text-white">
+          <a href="/how-it-works" aria-label="How It Works" className="text-white/95 text-sm font-medium transition-all font-montserrat hover:text-white px-[6px]">
             How It Works
           </a>
           <a href="/for-businesses" className="text-white/95 text-sm font-medium transition-all font-montserrat hover:text-white" aria-label="For Businesses">
