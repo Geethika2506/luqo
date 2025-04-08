@@ -91,7 +91,7 @@ const Index: React.FC = () => {
     console.log('Selected city:', city);
   };
 
-  const workshopImage = "/lovable-uploads/341c8d75-7da0-4322-84f4-496a94cbb3bf.png";
+  const workshopImage = "/lovable-uploads/17fb8e44-896a-4404-b22d-7bc10a56ea99.png";
   const eventsImage = "/lovable-uploads/80cc2d29-241d-45c3-a5c7-1dc9ae53e488.png";
   const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
 
