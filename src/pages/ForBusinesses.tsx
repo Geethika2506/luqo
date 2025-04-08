@@ -1,24 +1,19 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { useNavigate } from 'react-router-dom';
-
 const ForBusinesses: React.FC = () => {
   const navigate = useNavigate();
-  
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
-  
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       
       <main className="flex-grow">
         {/* Hero section */}
         <section className="relative py-20 md:py-28">
-          <div className="absolute inset-0 bg-gradient-to-b from-navyBlue to-navyBlue/80 z-0"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-navyBlue to-navyBlue/80 z-0 bg-neutral-950"></div>
           <div className="relative z-10 container mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 font-montserrat">
               Grow Your Business with Luqo
@@ -26,10 +21,7 @@ const ForBusinesses: React.FC = () => {
             <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8">
               Connect with local shoppers, showcase your unique experiences, and build a loyal customer base.
             </p>
-            <button 
-              onClick={handleRegisterStore}
-              className="bg-brand hover:bg-brand/90 text-white px-8 py-3 rounded-full font-medium transition-colors"
-            >
+            <button onClick={handleRegisterStore} className="bg-brand hover:bg-brand/90 text-white px-8 py-3 rounded-full font-medium transition-colors">
               Register Your Business
             </button>
           </div>
@@ -101,10 +93,7 @@ const ForBusinesses: React.FC = () => {
             <p className="text-white/90 max-w-2xl mx-auto mb-8">
               Start growing your business and connecting with local customers today. Registration is quick and simple.
             </p>
-            <button 
-              onClick={handleRegisterStore}
-              className="bg-white hover:bg-white/90 text-brand px-8 py-3 rounded-full font-medium transition-colors"
-            >
+            <button onClick={handleRegisterStore} className="bg-white hover:bg-white/90 text-brand px-8 py-3 rounded-full font-medium transition-colors">
               Register Your Business
             </button>
           </div>
@@ -112,8 +101,6 @@ const ForBusinesses: React.FC = () => {
       </main>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default ForBusinesses;
