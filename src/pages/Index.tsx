@@ -94,7 +94,7 @@ const Index: React.FC = () => {
 
   const workshopImage = "/lovable-uploads/17fb8e44-896a-4404-b22d-7bc10a56ea99.png";
   const eventsImage = "/lovable-uploads/65f25eba-83e4-4ef6-8395-c452854b8fa4.png";
-  const offersImage = "/lovable-uploads/c52658b8-159b-4d05-b711-e633030111d0.png";
+  const offersImage = "/lovable-uploads/f0e62bad-8058-441f-8ae9-93f3e1328699.png";
 
   return <div className="min-h-screen flex flex-col">
       <Header />

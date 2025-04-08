@@ -29,6 +29,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   // Special styling for Workshops card to match the design
   const isWorkshop = title === "Workshops";
   const isEvent = title === "Events";
+  const isOffer = title === "Offers";
   
   return (
     <div 
@@ -55,7 +56,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 className="w-full h-full object-cover object-center"
                 style={{
                   objectPosition: title === "Workshops" ? "center 30%" : 
-                               title === "Events" ? "center 40%" : "center 60%"
+                               title === "Events" ? "center 40%" : 
+                               title === "Offers" ? "center center" : "center 60%"
                 }}
               />
               <div className="absolute inset-0 bg-black/30" />
@@ -89,6 +91,21 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 className="w-full h-full object-cover transition-transform hover:scale-105"
                 style={{
                   objectPosition: "center center"
+                }}
+              />
+            </div>
+          </>
+        ) : isOffer ? (
+          <>
+            <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">{title}</h3>
+            <div className="flex-grow relative overflow-hidden rounded-lg">
+              <img 
+                src="/lovable-uploads/f0e62bad-8058-441f-8ae9-93f3e1328699.png" 
+                alt={title} 
+                className="w-full h-full object-cover transition-transform hover:scale-105"
+                style={{
+                  objectPosition: "center center",
+                  minHeight: "150px"
                 }}
               />
             </div>
