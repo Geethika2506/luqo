@@ -28,6 +28,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   // Special styling for Workshops card to match the design
   const isWorkshop = title === "Workshops";
+  const isEvent = title === "Events";
   
   return (
     <div 
@@ -74,6 +75,20 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                 style={{
                   height: "180px",
                   objectPosition: "center top"
+                }}
+              />
+            </div>
+          </>
+        ) : isEvent ? (
+          <>
+            <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">{title}</h3>
+            <div className="flex-grow relative overflow-hidden rounded-lg">
+              <img 
+                src="/lovable-uploads/65f25eba-83e4-4ef6-8395-c452854b8fa4.png" 
+                alt={title} 
+                className="w-full h-full object-cover transition-transform hover:scale-105"
+                style={{
+                  objectPosition: "center center"
                 }}
               />
             </div>
