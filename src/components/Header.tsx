@@ -9,6 +9,7 @@ import { User, LogOut } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { cn } from '@/lib/utils';
+
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const {
@@ -17,6 +18,7 @@ const Header: React.FC = () => {
   const [session, setSession] = React.useState<any>(null);
   const [profile, setProfile] = React.useState<any>(null);
   const isMobile = useIsMobile();
+
   React.useEffect(() => {
     const getSession = async () => {
       const {
@@ -54,9 +56,11 @@ const Header: React.FC = () => {
     });
     return () => subscription.unsubscribe();
   }, []);
+
   const handleSignIn = () => {
     navigate('/sign-in');
   };
+
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -69,9 +73,11 @@ const Header: React.FC = () => {
       console.error('Error signing out:', error);
     }
   };
+
   const handleRegisterStore = () => {
     navigate('/register-store');
   };
+
   const getInitials = () => {
     if (profile?.full_name) {
       return profile.full_name.substring(0, 2).toUpperCase();
@@ -81,6 +87,7 @@ const Header: React.FC = () => {
     }
     return 'U';
   };
+
   const getDisplayName = () => {
     if (profile?.full_name) {
       return profile.full_name;
@@ -91,10 +98,11 @@ const Header: React.FC = () => {
     }
     return 'User';
   };
-  return <header className="w-full bg-zinc-900 absolute top-0 left-0 z-50 px-4 border-b border-zinc-800 py-0">
+
+  return <header className="w-full bg-zinc-900 absolute top-0 left-0 z-50 px-4 border-b border-zinc-800 py-2">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <div className="flex items-center">
-          <a href="/" aria-label="LUQO Home">
+          <a href="/" aria-label="LUQO Home" className="py-1">
             <Logo size="sm" variant="white" />
           </a>
         </div>
@@ -135,4 +143,5 @@ const Header: React.FC = () => {
       </div>
     </header>;
 };
+
 export default Header;
