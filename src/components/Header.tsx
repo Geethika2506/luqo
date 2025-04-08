@@ -94,7 +94,7 @@ const Header: React.FC = () => {
   return <header className="w-full absolute top-0 left-0 z-50 px-4 border-b border-zinc-800 py-2 bg-zinc-950">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <div className="flex items-center">
-          <a href="/" aria-label="LUQO Home" className="py-1">
+          <a href="/" aria-label="LUQO Home" className="py-1 px-0 mx-0">
             <Logo size="sm" variant="white" />
           </a>
         </div>
